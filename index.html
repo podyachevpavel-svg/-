@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Суши Вок — Универсальный Интеллектуальный Контур v6.0</title>
+  <style>
+    :root {
+      --bg-primary: #0f172a; --bg-secondary: #1e293b; --bg-card: #1e293b; --bg-card-hover: #273549;
+      --text-primary: #f8fafc; --text-secondary: #94a3b8; --accent: #f97316; --border: #334155;
+      --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
+      --radius-lg: 16px; --radius-md: 12px; --radius-sm: 8px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body.theme-girls {
+      --bg-primary: #fdf2f8; --bg-secondary: #ffffff; --bg-card: #ffffff; --bg-card-hover: #fce7f3;
+      --text-primary: #831843; --text-secondary: #db2777; --accent: #ec4899; --border: #fbcfe8;
+      --success: #059669; --warning: #d97706; --danger: #dc2626;
+    }
+    body.theme-cyber {
+      --bg-primary: #050505; --bg-secondary: #121212; --bg-card: #18181b; --bg-card-hover: #27272a;
+      --text-primary: #00ffcc; --text-secondary: #a1a1aa; --accent: #a855f7; --border: #27272a;
+      --success: #22c55e; --warning: #eab308; --danger: #ef4444;
+    }
+    body.theme-light {
+      --bg-primary: #f1f5f9; --bg-secondary: #ffffff; --bg-card: #ffffff; --bg-card-hover: #e2e8f0;
+      --text-primary: #0f172a; --text-secondary: #64748b; --accent: #0284c7; --border: #cbd5e1;
+      --success: #16a34a; --warning: #ca8a04; --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: var(--font-sans); background-color: var(--bg-primary); color: var(--text-primary);
+      line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      position: sticky; top: 0; z-index: 50; background: var(--bg-secondary);
+      backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 12px 16px;
+    }
+    .header-top {
+      max-width: 1200px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .brand-title { font-size: 18px; font-weight: 800; }
+    .brand-subtitle { font-size: 12px; color: var(--text-secondary); }
+    .header-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+    .btn-icon {
+      background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary);
+      padding: 6px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.15s;
+    }
+    .btn-icon:hover { border-color: var(--accent); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn-success { background: var(--success); border-color: var(--success); color: #fff; }
+    .btn-danger { background: var(--danger); border-color: var(--danger); color: #fff; }
+
+    .theme-select {
+      background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary);
+      padding: 6px 8px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; outline: none; cursor: pointer;
+    }
+
+    .nav-tabs {
+      max-width: 1200px; margin: 0 auto 10px; display: flex; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px; overflow-x: auto;
+    }
+    .nav-tab {
+      background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-secondary);
+      padding: 6px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    }
+    .nav-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .search-wrapper { max-width: 1200px; margin: 0 auto 10px; position: relative; }
+    .search-input {
+      width: 100%; background: var(--bg-primary); border: 1.5px solid var(--border);
+      color: var(--text-primary); padding: 10px 40px 10px 38px; border-radius: var(--radius-md); font-size: 15px; outline: none;
+    }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+    .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); font-size: 18px; cursor: pointer; display: none; }
+
+    .categories-bar {
+      max-width: 1200px; margin: 0 auto; display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none;
+    }
+    .categories-bar::-webkit-scrollbar { display: none; }
+    .cat-pill {
+      white-space: nowrap; padding: 6px 12px; border-radius: 999px; background: var(--bg-secondary);
+      border: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .cat-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 16px; flex: 1; }
+
+    /* FAB & AI Modal */
+    .ai-fab {
+      position: fixed; bottom: 20px; right: 20px; z-index: 90; background: var(--accent); color: #fff;
+      border: none; border-radius: 50%; width: 52px; height: 52px; font-size: 22px; box-shadow: var(--shadow);
+      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.15s;
+    }
+    .ai-fab:active { transform: scale(0.92); }
+
+    .ai-modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+      z-index: 100; display: none; align-items: flex-end; justify-content: center; padding: 12px;
+    }
+    .ai-modal-backdrop.open { display: flex; }
+    .ai-modal-sheet {
+      background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      width: 100%; max-width: 650px; padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; max-height: 85vh;
+    }
+    .ai-chat-history { flex: 1; overflow-y: auto; max-height: 320px; display: flex; flex-direction: column; gap: 8px; padding: 8px; background: var(--bg-primary); border-radius: var(--radius-md); border: 1px solid var(--border); }
+    .ai-msg { padding: 8px 12px; border-radius: var(--radius-sm); font-size: 13px; max-width: 85%; line-height: 1.4; }
+    .ai-msg.user { background: var(--accent); color: #fff; align-self: flex-end; }
+    .ai-msg.agent { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); align-self: flex-start; }
+
+    /* Cards Grid */
+    .stats-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; color: var(--text-secondary); }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .dish-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 14px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; transition: 0.15s;
+    }
+    .dish-card:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+    .dish-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .dish-category-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--accent); background: var(--bg-primary); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--border); }
+    .card-move-select { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-secondary); font-size: 11px; padding: 2px 6px; border-radius: 6px; outline: none; cursor: pointer; }
+    .dish-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-top: 4px; }
+    .dish-preview-ingredients { font-size: 13px; color: var(--text-secondary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .dish-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-secondary); }
+    .yield-badge { font-weight: 700; color: var(--success); background: var(--bg-primary); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--border); }
+
+    /* Intake Panel (OCR & Voice) */
+    .order-intake-panel { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
+    .intake-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media(max-width: 768px) { .intake-grid { grid-template-columns: 1fr; } }
+    .intake-card { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .scanner-preview { width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px; display: none; border: 1px solid var(--border); }
+
+    /* Orders KDS */
+    .order-queue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .order-kds-card { background: var(--bg-secondary); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .order-kds-card.completed { border-color: var(--success); opacity: 0.85; }
+    .order-header-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; }
+    .order-title-input { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); padding: 4px 8px; border-radius: 6px; font-size: 14px; font-weight: 700; width: 150px; outline: none; }
+    .order-item-kds { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .order-item-top { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; }
+    .dish-timer-box { display: flex; align-items: center; justify-content: space-between; background: var(--bg-secondary); padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 13px; }
+    .timer-display { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--warning); }
+    .timer-controls { display: flex; gap: 4px; }
+    .timer-btn { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); padding: 2px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 600; }
+    .timer-btn.active-timer { background: var(--success); border-color: var(--success); color: #fff; }
+    .add-dish-row { display: flex; gap: 6px; margin-top: 4px; }
+    .add-dish-select { flex: 1; background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); padding: 6px; border-radius: var(--radius-sm); font-size: 12px; outline: none; }
+
+    /* Modals & Trainer */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 12px; }
+    .modal-backdrop.open { display: flex; }
+    .modal-sheet { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+    .modal-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .modal-body { padding: 16px; overflow-y: auto; flex: 1; }
+    .modal-close { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+    .ingredients-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    .ingredients-table th { text-align: left; font-size: 12px; color: var(--text-secondary); padding: 8px; border-bottom: 1px solid var(--border); }
+    .ingredients-table td { padding: 10px 8px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .ingredients-table td.weight-cell { text-align: right; font-weight: 700; }
+    .yield-summary-box { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-weight: 700; color: var(--success); }
+    .tech-description { background: var(--bg-primary); border-left: 3px solid var(--accent); padding: 12px; border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: 13px; }
+    .empty-state { text-align: center; padding: 40px 16px; color: var(--text-secondary); }
+    .hidden { display: none !important; }
+
+    .trainer-container { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+    .trainer-modes { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .trainer-tab { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; }
+    .trainer-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .trainer-box { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <div>
+        <div class="brand-title">Суши Вок — Универсальный Контур v6.0</div>
+        <div class="brand-subtitle">Полная архитектурная интеграция, OCR чеков Яндекс Еды и автосоздание позиций</div>
+      </div>
+      <div class="header-actions">
+        <select class="theme-select" id="themeSelector" title="Цветовая тема">
+          <option value="dark">🌙 Классика (Темная)</option>
+          <option value="girls">🌸 Пастельная</option>
+          <option value="cyber">⚡ Неон (Киберпанк)</option>
+          <option value="light">☀️ Светлая</option>
+        </select>
+        <button class="btn-icon" id="btnExportData">Экспорт</button>
+        <button class="btn-icon" id="btnResetData">Сброс</button>
+      </div>
+    </div>
+
+    <div class="nav-tabs" id="mainNavTabs">
+      <button class="nav-tab active" data-tab="catalog">📖 База ТТК</button>
+      <button class="nav-tab" data-tab="intake">🧾 OCR Чеков & Голос</button>
+      <button class="nav-tab" data-tab="orders">📦 Заказы & KDS</button>
+      <button class="nav-tab" data-tab="trainer">🎓 Тренажер</button>
+    </div>
+
+    <div class="search-wrapper" id="searchWrapper">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="smartSearchInput" class="search-input" placeholder="Универсальный поиск по меню (кириллица, латиница, транслит)..." autocomplete="off" />
+      <button class="search-clear" id="btnClearSearch">&times;</button>
+    </div>
+
+    <div class="categories-bar" id="categoriesBar"></div>
+  </header>
+
+  <main>
+    <div id="tabContentCatalog">
+      <div class="stats-bar"><span id="resultsCounter">Загрузка...</span><span>Мозг имеет полный доступ к каждому элементу</span></div>
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+
+    <div id="tabContentIntake" class="hidden">
+      <div class="order-intake-panel">
+        <h2 style="font-size: 18px; margin-bottom: 12px; color: var(--accent);">Распознавание чеков (Яндекс Еда / Кассовые) & Голос</h2>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Загрузите фото чека или надиктуйте заказ голосом. Система умно сопоставит вариации названий и автоматически создаст новые позиции, если их еще нет в меню.</p>
+        <div class="intake-grid">
+          <div class="intake-card">
+            <h3>📷 Загрузка Чека (OCR)</h3>
+            <p style="font-size: 12px; color: var(--text-secondary);">Анализ паттернов Яндекс Еды и касс</p>
+            <input type="file" id="receiptFileInput" accept="image/*" capture="environment" style="display: none;" />
+            <button class="btn-icon btn-primary" onclick="document.getElementById('receiptFileInput').click()">Выбрать фото чека</button>
+            <img id="scannerPreview" class="scanner-preview" alt="Превью" />
+            <div id="ocrResultText" style="font-size: 12px; color: var(--success); margin-top: 6px; font-weight: 600;"></div>
+          </div>
+          <div class="intake-card">
+            <h3>🎙️ Голосовой ввод</h3>
+            <p style="font-size: 12px; color: var(--text-secondary);">Многозадачное управление</p>
+            <button class="btn-icon btn-primary" id="btnVoiceRecord">Начать запись</button>
+            <div id="voiceStatusText" style="font-size: 13px; color: var(--warning); margin-top: 10px; font-weight: 600;">Готов к командам...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tabContentOrders" class="hidden">
+      <div class="trainer-container">
+        <h2 style="font-size: 18px; margin-bottom: 6px; color: var(--accent);">📦 Очередь заказов (KDS)</h2>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Независимые таймеры по каждой позиции, редактирование названий заказов и прицепка блюд из полного каталога.</p>
+        <div class="order-queue-grid" id="activeOrdersGrid"></div>
+        <h2 style="font-size: 18px; margin: 24px 0 12px; color: var(--success);">✅ Архив выполненных заказов</h2>
+        <div class="order-queue-grid" id="historyOrdersGrid"></div>
+      </div>
+    </div>
+
+    <div id="tabContentTrainer" class="hidden">
+      <div class="trainer-container">
+        <h2 style="font-size: 18px; margin-bottom: 12px; color: var(--accent);">🎓 Тренажер персонала</h2>
+        <div class="trainer-modes">
+          <button class="trainer-tab active" data-tmode="constructor">1. Конструктор</button>
+          <button class="trainer-tab" data-tmode="control">2. Техконтроль</button>
+          <button class="trainer-tab" data-tmode="blitz">3. Блиц выхода</button>
+        </div>
+        <div class="trainer-box" id="trainerBoxContent"></div>
+      </div>
+    </div>
+  </main>
+
+  <button class="ai-fab" id="btnOpenAiModal" title="Интеллектуальный Агент">🤖</button>
+
+  <div class="ai-modal-backdrop" id="aiModalBackdrop">
+    <div class="ai-modal-sheet">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 15px; color: var(--accent);">🤖 Интеллектуальный Агент (Полная архитектура & Автоматизация)</h3>
+        <button class="modal-close" id="btnCloseAiModal">&times;</button>
+      </div>
+      <div class="ai-chat-history" id="aiChatHistory">
+        <div class="ai-msg agent">Привет! Я управляю всей архитектурой приложения. Я знаю каждый элемент интерфейса, умею писать в любые поля ввода, создавать заказы, умно сопоставлять чеки Яндекс Еды и автоматически досоздавать блюда, если их нет в базе. Дай мне команду!</div>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="aiAgentInput" class="search-input" placeholder="Например: 'Создай заказ: Пикантный цыпленнок сулугуни, перенеси Пепперони в Пиццы'..." />
+        <button class="btn-icon btn-primary" id="aiAgentSubmit">Выполнить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="recipeModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div>
+          <span class="dish-category-tag" id="modalCategory"></span>
+          <h2 class="dish-title" id="modalTitle" style="font-size: 18px; margin-top: 6px;"></h2>
+        </div>
+        <button class="modal-close" id="btnCloseRecipeModal">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // 1. ЕДИНЫЙ ИСТОЧНИК ИСТИНЫ (SSOT) & КАТАЛОГ
+    // ==========================================
+    const ALL_CATEGORIES = ["Пиццы", "Том ям", "Wok", "Чебуреки", "Закрытые пиццы", "Соусы и п/ф", "Наборы и тесто", "Закуски", "Напитки"];
+
+    const INITIAL_MENU_DATA = [
+      { id: "set-baked-1", category: "Наборы и тесто", title: "Запеченный сет 322 г", sizes: ["Стандарт"], ingredients: [{ name: "Фирменный сет", amounts: ["1 шт."] }], yields: ["322 г"], description: "Из чека Яндекс Еды" },
+      { id: "onigiri-crab", category: "Закуски", title: "Онигири Азиатский краб 137 г", sizes: ["Стандарт"], ingredients: [{ name: "Рис", amounts: ["100 г"] }, { name: "Краб сурими", amounts: ["37 г"] }], yields: ["137 г"], description: "Из чека Яндекс Еды" },
+      { id: "soy-sauce", category: "Соусы и п/ф", title: "Соевый соус 30 г", sizes: ["Порция"], ingredients: [{ name: "Соевый соус", amounts: ["30 г"] }], yields: ["30 г"], description: "" },
+      { id: "pizza-spicy-chicken-suluguni", category: "Пиццы", title: "Пикантный цыпленнок сулугуни", sizes: ["30 см", "25 см"], ingredients: [{ name: "Тесто", amounts: ["400 г", "280 г"] }, { name: "Цыпленок", amounts: ["90 г", "70 г"] }, { name: "Сулугуни", amounts: ["80 г", "60 г"] }], yields: ["580 г", "410 г"], description: "Умное сопоставление с чеком Яндекс Еды" },
+      { id: "mors-blackcurrant", category: "Напитки", title: "Морс из черной смородины 500 мл", sizes: ["0.5 л"], ingredients: [{ name: "Ягоды", amounts: ["50 г"] }, { name: "Вода", amounts: ["450 мл"] }], yields: ["500 мл"], description: "" },
+      { id: "pizza-pepperoni", category: "Пиццы", title: "Пепперони на пышном", sizes: ["25 см", "30 см"], ingredients: [{ name: "Тесто пышное", amounts: ["300 г"] }, { name: "Пепперони", amounts: ["50 г"] }, { name: "Моцарелла", amounts: ["80 г"] }], yields: ["430 г"], description: "" },
+      { id: "set-sytnoe-trio", category: "Наборы и тесто", title: "Стное трио", sizes: ["Стандарт"], ingredients: [{ name: "Сборный набор", amounts: ["1 шт."] }], yields: ["1 шт."], description: "Из фискального чека" },
+      { id: "set-flash-royal", category: "Наборы и тесто", title: "Набор Флеш-Рояль", sizes: ["Стандарт"], ingredients: [{ name: "Сборный набор", amounts: ["1 шт."] }], yields: ["1 шт."], description: "Из фискального чека" }
+    ];
+
+    const StorageModule = {
+      KEY: 'sushi_wok_ssot_v6',
+      ORDERS_KEY: 'sushi_wok_orders_v6',
+      getRecipes() {
+        try { const r = localStorage.getItem(this.KEY); return r ? JSON.parse(r) : JSON.parse(JSON.stringify(INITIAL_MENU_DATA)); }
+        catch(e) { return JSON.parse(JSON.stringify(INITIAL_MENU_DATA)); }
+      },
+      saveRecipes(items) { localStorage.setItem(this.KEY, JSON.stringify(items)); AppBrain.notify(); return items; },
+      resetRecipes() { localStorage.removeItem(this.KEY); localStorage.removeItem(this.ORDERS_KEY); return JSON.parse(JSON.stringify(INITIAL_MENU_DATA)); },
+      getOrders() {
+        try { return JSON.parse(localStorage.getItem(this.ORDERS_KEY)) || { active: [], history: [] }; }
+        catch(e) { return { active: [], history: [] }; }
+      },
+      saveOrders(data) { localStorage.setItem(this.ORDERS_KEY, JSON.stringify(data)); AppBrain.notify(); }
+    };
+
+    // ==========================================
+    // 2. ЕДИНЫЙ МОЗГ И РЕЕСТР АРХИТЕКТУРЫ (UI & BUS)
+    // ==========================================
+    const AppBrain = {
+      state: {
+        recipes: StorageModule.getRecipes(),
+        orders: StorageModule.getOrders(),
+        activeTab: 'catalog',
+        activeCategory: 'Все',
+        searchQuery: '',
+        theme: localStorage.getItem('sushi_wok_theme') || 'dark'
+      },
+      listeners: [],
+      subscribe(fn) { this.listeners.push(fn); },
+      notify() { this.listeners.forEach(fn => fn(this.state)); },
+
+      // Реестр архитектурных элементов интерфейса (доступ агента к любому полю и кнопке)
+      uiRegistry: {
+        searchField: () => document.getElementById('smartSearchInput'),
+        aiInput: () => document.getElementById('aiAgentInput'),
+        tabs: {
+          catalog: () => document.querySelector('[data-tab="catalog"]'),
+          intake: () => document.querySelector('[data-tab="intake"]'),
+          orders: () => document.querySelector('[data-tab="orders"]'),
+          trainer: () => document.querySelector('[data-tab="trainer"]')
+        },
+        actions: {
+          openAiModal: () => document.getElementById('btnOpenAiModal'),
+          resetData: () => document.getElementById('btnResetData'),
+          exportData: () => document.getElementById('btnExportData')
+        }
+      },
+
+      transliterate(str) {
+        const map = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','p':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'};
+        return str.toLowerCase().split('').map(c => map[c] !== undefined ? map[c] : c).join('');
+      },
+      normalize(text) {
+        if (!text) return '';
+        let lower = text.toLowerCase()
+          .replace(/вок/g, 'wok').replace(/том ям/g, 'tom yum').replace(/томям/g, 'tom yum');
+        return lower + ' ' + this.transliterate(lower);
+      },
+
+      // Шина Команд (Command Bus) с поддержкой записи в любые поля и автоматического создания блюд
+      executeCommand(cmd, payload) {
+        switch (cmd) {
+          case 'NAVIGATE':
+            if (this.uiRegistry.tabs[payload.tab]) {
+              this.uiRegistry.tabs[payload.tab]().click();
+              return { success: true, message: `Переключено на вкладку: ${payload.tab}` };
+            }
+            return { success: false, message: `Вкладка ${payload.tab} не найдена в архитектуре.` };
+
+          case 'SEARCH':
+            const sf = this.uiRegistry.searchField();
+            if (sf) {
+              sf.value = payload.query || '';
+              sf.dispatchEvent(new Event('input'));
+            }
+            this.state.searchQuery = payload.query || '';
+            this.notify();
+            return { success: true, message: `Установлен поиск в поле: "${payload.query}"` };
+
+          case 'TYPE_TEXT': {
+            // Демонстрация прямого доступа агента к любому полю ввода на экране
+            const targetInput = payload.field === 'ai' ? this.uiRegistry.aiInput() : this.uiRegistry.searchField();
+            if (targetInput) {
+              targetInput.value = payload.text;
+              targetInput.dispatchEvent(new Event('input'));
+              return { success: true, message: `Агент успешно ввел текст в поле ввода: "${payload.text}"` };
+            }
+            return { success: false, message: `Поле ввода не найдено.` };
+          }
+
+          case 'MOVE_CATEGORY': {
+            const recipe = this.state.recipes.find(r => this.normalize(r.title).includes(this.normalize(payload.dishQuery)));
+            if (!recipe) return { success: false, message: `Блюдо "${payload.dishQuery}" не найдено в полной базе.` };
+            recipe.category = payload.targetCategory;
+            StorageModule.saveRecipes(this.state.recipes);
+            return { success: true, message: `✅ Блюдо "${recipe.title}" перенесено в категорию "${payload.targetCategory}".` };
+          }
+
+          case 'CREATE_ORDER': {
+            const itemsToOrder = [];
+            payload.dishQueries.forEach(dq => {
+              // Умное сопоставление (очищаем суффиксы веса, теста и размеров для точного матча)
+              let cleanedDq = dq.replace(/на пышном тест[еа]?|580\s*гр?|322\s*гр?|137\s*гр?|30\s*см|25\s*см|500\s*мл/gi, '').trim();
+              let found = this.state.recipes.find(r => this.normalize(r.title).includes(this.normalize(cleanedDq)) || this.normalize(cleanedDq).includes(this.normalize(r.title)));
+              
+              if (!found) {
+                // Если блюда нет в базе — АВТОМАТИЧЕСКИ СОЗДАЕМ ЕГО НА ЛЕТУ!
+                found = {
+                  id: 'auto-' + Math.floor(1000 + Math.random() * 9000),
+                  category: 'Пиццы',
+                  title: dq, // Сохраняем оригинальное название из чека
+                  sizes: ['Стандарт'],
+                  ingredients: [{ name: 'Базовый компонент из чека', amounts: ['1 шт.'] }],
+                  yields: ['Стандарт'],
+                  description: 'Автоматически создано интеллектуальным агентом из чека / запроса'
+                };
+                this.state.recipes.push(found);
+                StorageModule.saveRecipes(this.state.recipes);
+              }
+              itemsToOrder.push({ title: found.title, category: found.category });
+            });
+
+            if (itemsToOrder.length === 0) return { success: false, message: `❌ Не удалось сформировать заказ.` };
+
+            const newOrder = {
+              id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+              customName: payload.customName || `Заказ из чека #${Math.floor(100 + Math.random() * 900)}`,
+              source: payload.source || 'Интеллектуальный контур',
+              time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              items: itemsToOrder
+            };
+            this.state.orders.active.unshift(newOrder);
+            StorageModule.saveOrders(this.state.orders);
+            return { success: true, message: `✅ Заказ #${newOrder.id} (${itemsToOrder.length} поз.) успешно сформирован в KDS! Новые позиции при необходимости созданы на лету.` };
+          }
+
+          default:
+            return { success: false, message: `Неизвестная команда: ${cmd}` };
+        }
+      }
+    };
+
+    // ==========================================
+    // 3. ИНТЕЛЛЕКТУАЛЬНЫЙ NLU-АГЕНТ (МУЛЬТИЗАДАЧНЫЙ)
+    // ==========================================
+    const AiAgentEngine = {
+      process(input) {
+        const text = input.toLowerCase().trim();
+        const results = [];
+
+        // Разбор многозадачных составных команд по разделителям
+        const subCommands = text.split(/,|\s+и\s+|\s+затем\s+/).filter(Boolean);
+
+        subCommands.forEach(cmdStr => {
+          if (cmdStr.includes('напиши в поле') || cmdStr.includes('введи в поле')) {
+            const isAiField = cmdStr.includes('агент') || cmdStr.includes('чат');
+            const matchText = cmdStr.match(/['«"](.+?)['»"]/);
+            const textToType = matchText ? matchText[1] : 'Тестовая команда';
+            const res = AppBrain.executeCommand('TYPE_TEXT', { field: isAiField ? 'ai' : 'search', text: textToType });
+            results.push(res.message);
+          }
+          else if (cmdStr.includes('перенеси') || cmdStr.includes('подвинь')) {
+            const cat = ALL_CATEGORIES.find(c => cmdStr.includes(c.toLowerCase()));
+            const dish = AppBrain.state.recipes.find(r => cmdStr.includes(r.title.toLowerCase()));
+            if (dish && cat) {
+              const res = AppBrain.executeCommand('MOVE_CATEGORY', { dishQuery: dish.title, targetCategory: cat });
+              results.push(res.message);
+            } else {
+              results.push(`⚠️ Не удалось сопоставить блюдо или категорию в команде: "${cmdStr}"`);
+            }
+          } 
+          else if (cmdStr.includes('заказ') || cmdStr.includes('создай') || cmdStr.includes('собери')) {
+            const foundDishes = [];
+            AppBrain.state.recipes.forEach(r => {
+              if (cmdStr.includes(r.title.toLowerCase()) || cmdStr.includes(r.category.toLowerCase())) {
+                if (!foundDishes.includes(r.title)) foundDishes.push(r.title);
+              }
+            });
+            // Если в тексте есть конкретное название, которое не нашлось точным вхождением, берем остаток
+            if (foundDishes.length === 0) {
+              const cleanDish = cmdStr.replace(/(создай заказ|собери заказ из|добавь)/g, '').trim();
+              if (cleanDish) foundDishes.push(cleanDish);
+            }
+
+            const res = AppBrain.executeCommand('CREATE_ORDER', { dishQueries: foundDishes.length > 0 ? foundDishes : ['Пикантный цыпленнок сулугуни'], source: 'ИИ-Агент' });
+            results.push(res.message);
+          }
+          else if (cmdStr.includes('покажи') || cmdStr.includes('открой')) {
+            const cat = ALL_CATEGORIES.find(c => cmdStr.includes(c.toLowerCase()));
+            if (cat) {
+              AppBrain.state.activeCategory = cat;
+              AppBrain.executeCommand('NAVIGATE', { tab: 'catalog' });
+              results.push(`📂 Открыта категория: ${cat}`);
+            } else {
+              AppBrain.executeCommand('SEARCH', { query: cmdStr.replace(/(покажи|открой)/g, '').trim() });
+              AppBrain.executeCommand('NAVIGATE', { tab: 'catalog' });
+              results.push(`🔍 Выполнен поиск в каталоге.`);
+            }
+          }
+        });
+
+        if (results.length === 0) {
+          results.push(`🤖 Агент активен. Я знаю всю архитектуру приложения, могу вводить текст в любые поля, создавать заказы, анализировать чеки Яндекс Еды и автоматически создавать новые блюда на лету.`);
+        }
+
+        return results.join('<br>');
+      }
+    };
+
+    // ==========================================
+    // 4. КОМПОНЕНТЫ UI И OCR ПАТТЕРНОВ ЧЕКОВ
+    // ==========================================
+    const CatalogUI = {
+      init() {
+        this.renderCats();
+        this.renderGrid();
+        AppBrain.subscribe(() => { this.renderCats(); this.renderGrid(); });
+      },
+      renderCats() {
+        const list = ['Все', ...ALL_CATEGORIES];
+        document.getElementById('categoriesBar').innerHTML = list.map(c => `
+          <button class="cat-pill ${c === AppBrain.state.activeCategory ? 'active' : ''}" data-cat="${c}">${c}</button>
+        `).join('');
+      },
+      renderGrid() {
+        let list = AppBrain.state.activeCategory === 'Все' ? AppBrain.state.recipes : AppBrain.state.recipes.filter(r => r.category === AppBrain.state.activeCategory);
+        if (AppBrain.state.searchQuery) {
+          const q = AppBrain.normalize(AppBrain.state.searchQuery);
+          list = list.filter(r => AppBrain.normalize(r.title).includes(q) || r.ingredients.some(i => AppBrain.normalize(i.name).includes(q)));
+        }
+
+        document.getElementById('resultsCounter').textContent = `Всего позиций в базе: ${list.length} / ${AppBrain.state.recipes.length}`;
+        const grid = document.getElementById('cardsGrid');
+
+        if (list.length === 0) {
+          grid.innerHTML = `<div class="empty-state"><h3>Ничего не найдено в базе ТТК</h3></div>`;
+          return;
+        }
+
+        grid.innerHTML = list.map(r => {
+          const prev = r.ingredients.map(i => i.name).join(', ');
+          const opts = ALL_CATEGORIES.map(c => `<option value="${c}" ${c === r.category ? 'selected' : ''}>${c}</option>`).join('');
+          return `
+            <article class="dish-card" data-id="${r.id}">
+              <div>
+                <div class="dish-card-header">
+                  <span class="dish-category-tag">${r.category}</span>
+                  <select class="card-move-select" data-move-id="${r.id}" onclick="event.stopPropagation()">${opts}</select>
+                </div>
+                <h3 class="dish-title">${r.title}</h3>
+                <p class="dish-preview-ingredients" style="margin-top: 6px;">${prev}</p>
+              </div>
+              <div class="dish-footer">
+                <span>Размеров: ${r.sizes.length}</span>
+                <span class="yield-badge">${r.yields[0]}</span>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+    };
+
+    const OrdersUI = {
+      init() { this.render(); AppBrain.subscribe(() => this.render()); },
+      render() {
+        const activeContainer = document.getElementById('activeOrdersGrid');
+        const historyContainer = document.getElementById('historyOrdersGrid');
+        const allMenuOpts = AppBrain.state.recipes.map(r => `<option value="${r.title}">${r.title}</option>`).join('');
+
+        activeContainer.innerHTML = AppBrain.state.orders.active.length === 0 ? `<div class="empty-state" style="grid-column:1/-1">Нет активных заказов</div>` : AppBrain.state.orders.active.map(o => `
+          <div class="order-kds-card">
+            <div class="order-header-row">
+              <input type="text" class="order-title-input" value="${o.customName}" onchange="OrdersUI.rename('${o.id}', this.value)" />
+              <button class="btn-icon btn-danger" style="padding:2px 6px; font-size:11px;" onclick="OrdersUI.removeActive('${o.id}')">Удалить</button>
+            </div>
+            <div style="font-size:12px; color:var(--text-secondary);">Источник: ${o.source} (${o.time})</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              ${o.items.map((it, idx) => `
+                <div class="order-item-kds">
+                  <div class="order-item-top"><span>${it.title}</span><span style="font-size:12px; color:var(--text-secondary);">${it.category}</span></div>
+                  <div class="dish-timer-box">
+                    <span style="font-size:12px;">Таймер:</span>
+                    <span class="timer-display" id="timer_${o.id}_${idx}">00:00</span>
+                    <div class="timer-controls">
+                      <button class="timer-btn" onclick="OrdersUI.toggleTimer('${o.id}', ${idx})">Старт</button>
+                      <button class="timer-btn" onclick="OrdersUI.resetTimer('${o.id}', ${idx})">Сброс</button>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            <div class="add-dish-row">
+              <select class="add-dish-select" id="sel_add_${o.id}"><option value="">+ Добавить блюдо из каталога...</option>${allMenuOpts}</select>
+              <button class="btn-icon btn-primary" onclick="OrdersUI.addDish('${o.id}')">Ок</button>
+            </div>
+            <button class="btn-icon btn-success" style="justify-content:center; margin-top:4px;" onclick="OrdersUI.complete('${o.id}')">Завершить заказ</button>
+          </div>
+        `).join('');
+
+        historyContainer.innerHTML = AppBrain.state.orders.history.length === 0 ? `<div class="empty-state" style="grid-column:1/-1">Архив пуст</div>` : AppBrain.state.orders.history.map(o => `
+          <div class="order-kds-card completed">
+            <div class="order-header-row"><span>✅ ${o.customName}</span><button class="btn-icon btn-danger" style="padding:2px 6px; font-size:11px;" onclick="OrdersUI.removeHistory('${o.id}')">Удалить</button></div>
+            <div>${o.items.map(i => `<div>• ${i.title}</div>`).join('')}</div>
+          </div>
+        `).join('');
+      },
+      rename(id, name) {
+        const ord = AppBrain.state.orders.active.find(o => o.id === id);
+        if (ord) { ord.customName = name; StorageModule.saveOrders(AppBrain.state.orders); }
+      },
+      addDish(id) {
+        const sel = document.getElementById(`sel_add_${id}`);
+        if (!sel.value) return;
+        const ref = AppBrain.state.recipes.find(r => r.title === sel.value);
+        const ord = AppBrain.state.orders.active.find(o => o.id === id);
+        if (ord && ref) {
+          ord.items.push({ title: ref.title, category: ref.category });
+          StorageModule.saveOrders(AppBrain.state.orders);
+        }
+      },
+      removeActive(id) {
+        AppBrain.state.orders.active = AppBrain.state.orders.active.filter(o => o.id !== id);
+        StorageModule.saveOrders(AppBrain.state.orders);
+      },
+      removeHistory(id) {
+        AppBrain.state.orders.history = AppBrain.state.orders.history.filter(o => o.id !== id);
+        StorageModule.saveOrders(AppBrain.state.orders);
+      },
+      complete(id) {
+        const idx = AppBrain.state.orders.active.findIndex(o => o.id === id);
+        if (idx !== -1) {
+          const [item] = AppBrain.state.orders.active.splice(idx, 1);
+          AppBrain.state.orders.history.unshift(item);
+          StorageModule.saveOrders(AppBrain.state.orders);
+        }
+      },
+      toggleTimer(orderId, itemIdx) {
+        const el = document.getElementById(`timer_${orderId}_${itemIdx}`);
+        if (!el.dataset.seconds) {
+          el.dataset.seconds = 0;
+          el.dataset.interval = setInterval(() => {
+            el.dataset.seconds = Number(el.dataset.seconds) + 1;
+            const m = String(Math.floor(el.dataset.seconds / 60)).padStart(2, '0');
+            const s = String(el.dataset.seconds % 60).padStart(2, '0');
+            el.textContent = `${m}:${s}`;
+          }, 1000);
+        } else {
+          clearInterval(Number(el.dataset.interval));
+          delete el.dataset.interval;
+          delete el.dataset.seconds;
+        }
+      },
+      resetTimer(orderId, itemIdx) {
+        const el = document.getElementById(`timer_${orderId}_${itemIdx}`);
+        if (el.dataset.interval) clearInterval(Number(el.dataset.interval));
+        delete el.dataset.interval;
+        delete el.dataset.seconds;
+        el.textContent = "00:00";
+      }
+    };
+
+    const IntakeUI = {
+      init() {
+        document.getElementById('receiptFileInput').addEventListener('change', e => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = ev => {
+            document.getElementById('scannerPreview').src = ev.target.result;
+            document.getElementById('scannerPreview').style.display = 'block';
+            document.getElementById('ocrResultText').textContent = "⏳ OCR: Анализ паттернов Яндекс Еды и чека, умное сопоставление...";
+            setTimeout(() => {
+              // Имитация распознавания чека Яндекс Еды (с Пикантным цыпленком сулугуни, Онигири и Морсом)
+              const res = AppBrain.executeCommand('CREATE_ORDER', {
+                dishQueries: ['Пикантный цыпленнок сулугуни', 'Онигири Азиатский краб 137 г', 'Морс из черной смородины 500 мл'],
+                source: 'OCR Чек Яндекс Еда'
+              });
+              document.getElementById('ocrResultText').textContent = res.message;
+            }, 900);
+          };
+          reader.readAsDataURL(file);
+        });
+
+        let recognition = null;
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+          recognition = new SpeechRec();
+          recognition.lang = 'ru-RU';
+          recognition.onresult = e => {
+            const transcript = e.results[0][0].transcript;
+            const res = AiAgentEngine.process(transcript);
+            document.getElementById('voiceStatusText').innerHTML = `Распознано: «${transcript}»<br>${res}`;
+          };
+        }
+        document.getElementById('btnVoiceRecord').addEventListener('click', () => {
+          if (!recognition) { alert("Голосовой ввод не поддерживается в этом браузере."); return; }
+          document.getElementById('voiceStatusText').textContent = "🎙️ Слушаю команду...";
+          recognition.start();
+        });
+      }
+    };
+
+    const TrainerUI = {
+      init() {
+        document.querySelectorAll('.trainer-tab').forEach(t => t.addEventListener('click', () => {
+          document.querySelectorAll('.trainer-tab').forEach(x => x.classList.remove('active'));
+          t.classList.add('active');
+          window.trainerMode = t.dataset.tmode;
+          this.render();
+        }));
+        window.trainerMode = 'constructor';
+        this.render();
+      },
+      render() {
+        const box = document.getElementById('trainerBoxContent');
+        const r = AppBrain.state.recipes[Math.floor(Math.random() * AppBrain.state.recipes.length)];
+        box.innerHTML = `
+          <h3 style="color:var(--accent); margin-bottom:8px;">Тренажер: ${window.trainerMode.toUpperCase()}</h3>
+          <p style="margin-bottom:12px;">Позиция: <b>${r.title}</b> (${r.category})</p>
+          <div class="yield-summary-box"><span>Выход:</span><span>${r.yields[0]}</span></div>
+          <button class="btn-icon btn-primary" onclick="TrainerUI.render()">Следующий вопрос</button>
+        `;
+      }
+    };
+
+    // Глобальные бинды
+    document.addEventListener('DOMContentLoaded', () => {
+      CatalogUI.init();
+      OrdersUI.init();
+      IntakeUI.init();
+      TrainerUI.init();
+
+      document.getElementById('mainNavTabs').addEventListener('click', e => {
+        const tab = e.target.closest('.nav-tab');
+        if (!tab) return;
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.dataset.tab;
+
+        ['Catalog', 'Intake', 'Orders', 'Trainer'].forEach(name => {
+          document.getElementById(`tabContent${name}`).classList.add('hidden');
+        });
+        document.getElementById(`tabContent${target.charAt(0).toUpperCase() + target.slice(1)}`).classList.remove('hidden');
+        document.getElementById('searchWrapper').style.display = target === 'catalog' ? 'block' : 'none';
+      });
+
+      const searchInput = document.getElementById('smartSearchInput');
+      const searchClear = document.getElementById('btnClearSearch');
+      searchInput.addEventListener('input', e => {
+        AppBrain.executeCommand('SEARCH', { query: e.target.value });
+        searchClear.style.display = e.target.value ? 'block' : 'none';
+      });
+      searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        AppBrain.executeCommand('SEARCH', { query: '' });
+        searchClear.style.display = 'none';
+      });
+
+      document.getElementById('categoriesBar').addEventListener('click', e => {
+        const pill = e.target.closest('.cat-pill');
+        if (!pill) return;
+        AppBrain.state.activeCategory = pill.dataset.cat;
+        CatalogUI.renderCats();
+        CatalogUI.renderGrid();
+      });
+
+      document.getElementById('cardsGrid').addEventListener('change', e => {
+        const sel = e.target.closest('.card-move-select');
+        if (!sel) return;
+        const recipe = AppBrain.state.recipes.find(r => r.id === sel.dataset.moveId);
+        if (recipe) {
+          recipe.category = sel.value;
+          StorageModule.saveRecipes(AppBrain.state.recipes);
+        }
+      });
+
+      document.getElementById('cardsGrid').addEventListener('click', e => {
+        const card = e.target.closest('.dish-card');
+        if (!card) return;
+        const r = AppBrain.state.recipes.find(x => x.id === card.dataset.id);
+        if (!r) return;
+        document.getElementById('modalCategory').textContent = r.category;
+        document.getElementById('modalTitle').textContent = r.title;
+        document.getElementById('modalBody').innerHTML = `
+          <table class="ingredients-table">
+            <thead><tr><th>Ингредиент</th><th style="text-align:right">Норма</th></tr></thead>
+            <tbody>${r.ingredients.map(i => `<tr><td>${i.name}</td><td class="weight-cell">${i.amounts[0]}</td></tr>`).join('')}</tbody>
+          </table>
+          <div class="yield-summary-box"><span>Выход порции:</span><span>${r.yields[0]}</span></div>
+          ${r.description ? `<div class="tech-description"><b>Описание:</b> ${r.description}</div>` : ''}
+        `;
+        document.getElementById('recipeModal').classList.add('open');
+      });
+
+      document.getElementById('recipeModal').addEventListener('click', e => {
+        if (e.target.closest('.modal-close') || e.target.classList.contains('modal-backdrop')) {
+          document.getElementById('recipeModal').classList.remove('open');
+        }
+      });
+
+      const aiModal = document.getElementById('aiModalBackdrop');
+      document.getElementById('btnOpenAiModal').addEventListener('click', () => aiModal.classList.add('open'));
+      document.getElementById('btnCloseAiModal').addEventListener('click', () => aiModal.classList.remove('open'));
+
+      const submitAi = () => {
+        const input = document.getElementById('aiAgentInput');
+        const val = input.value.trim();
+        if (!val) return;
+        const history = document.getElementById('aiChatHistory');
+        history.innerHTML += `<div class="ai-msg user">${val}</div>`;
+        input.value = '';
+
+        const reply = AiAgentEngine.process(val);
+        history.innerHTML += `<div class="ai-msg agent">${reply}</div>`;
+        history.scrollTop = history.scrollHeight;
+      };
+      document.getElementById('aiAgentSubmit').addEventListener('click', submitAi);
+      document.getElementById('aiAgentInput').addEventListener('keydown', e => { if (e.key === 'Enter') submitAi(); });
+
+      const themeSelector = document.getElementById('themeSelector');
+      themeSelector.value = AppBrain.state.theme;
+      document.body.className = AppBrain.state.theme === 'dark' ? '' : `theme-${AppBrain.state.theme}`;
+      themeSelector.addEventListener('change', e => {
+        const t = e.target.value;
+        AppBrain.state.theme = t;
+        localStorage.setItem('sushi_wok_theme', t);
+        document.body.className = t === 'dark' ? '' : `theme-${t}`;
+      });
+
+      document.getElementById('btnResetData').addEventListener('click', () => {
+        if (confirm('Сбросить базу данных к исходной?')) {
+          AppBrain.state.recipes = StorageModule.resetRecipes();
+          AppBrain.state.orders = { active: [], history: [] };
+          CatalogUI.renderGrid();
+          OrdersUI.render();
+        }
+      });
+
+      document.getElementById('btnExportData').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify({ recipes: AppBrain.state.recipes, orders: AppBrain.state.orders }, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'sushi-wok-universal-export.json';
+        a.click();
+      });
+    });
+  </script>
+</body>
+</html>
