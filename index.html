@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Суши Вок — Полная база ТТК и KDS</title>
+  <style>
+    /* Темы оформления (5 тем) */
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #1e293b;
+      --bg-card-hover: #273549;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #f97316;
+      --border: #334155;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body.theme-girls {
+      --bg-primary: #fdf2f8;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #fce7f3;
+      --text-primary: #831843;
+      --text-secondary: #db2777;
+      --accent: #ec4899;
+      --border: #fbcfe8;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+    }
+    body.theme-cyber {
+      --bg-primary: #050505;
+      --bg-secondary: #121212;
+      --bg-card: #18181b;
+      --bg-card-hover: #27272a;
+      --text-primary: #00ffcc;
+      --text-secondary: #a1a1aa;
+      --accent: #a855f7;
+      --border: #27272a;
+      --success: #22c55e;
+      --warning: #eab308;
+      --danger: #ef4444;
+    }
+    body.theme-light {
+      --bg-primary: #f1f5f9;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --accent: #0284c7;
+      --border: #cbd5e1;
+      --success: #16a34a;
+      --warning: #ca8a04;
+      --danger: #dc2626;
+    }
+    body.theme-forest {
+      --bg-primary: #064e3b;
+      --bg-secondary: #065f46;
+      --bg-card: #047857;
+      --bg-card-hover: #059669;
+      --text-primary: #ecfdf5;
+      --text-secondary: #a7f3d0;
+      --accent: #f59e0b;
+      --border: #047857;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--bg-secondary);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+    }
+
+    .header-top {
+      max-width: 1200px; margin: 0 auto 10px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-title { font-size: 18px; font-weight: 800; }
+    .brand-subtitle { font-size: 12px; color: var(--text-secondary); }
+
+    .header-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+    .btn-icon {
+      background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary);
+      padding: 6px 10px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn-success { background: var(--success); border-color: var(--success); color: #fff; }
+    .btn-danger { background: var(--danger); border-color: var(--danger); color: #fff; }
+
+    .theme-select {
+      background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary);
+      padding: 6px 8px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; outline: none; cursor: pointer;
+    }
+
+    .nav-tabs {
+      max-width: 1200px; margin: 0 auto 10px; display: flex; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px; overflow-x: auto;
+    }
+    .nav-tab {
+      background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-secondary);
+      padding: 6px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    }
+    .nav-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .search-wrapper { max-width: 1200px; margin: 0 auto 10px; position: relative; }
+    .search-input {
+      width: 100%; background: var(--bg-primary); border: 1.5px solid var(--border);
+      color: var(--text-primary); padding: 10px 40px 10px 38px; border-radius: var(--radius-md);
+      font-size: 15px; outline: none;
+    }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+    .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); font-size: 18px; cursor: pointer; display: none; }
+
+    .categories-bar {
+      max-width: 1200px; margin: 0 auto; display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .categories-bar::-webkit-scrollbar { display: none; }
+
+    .cat-pill {
+      white-space: nowrap; padding: 6px 12px; border-radius: 999px; background: var(--bg-secondary);
+      border: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .cat-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 16px; flex: 1; }
+
+    /* Компактная плавающая кнопка агента (не загораживает данные) */
+    .ai-fab {
+      position: fixed; bottom: 20px; right: 20px; z-index: 90;
+      background: var(--accent); color: #fff; border: none; border-radius: 50%;
+      width: 50px; height: 50px; font-size: 20px; box-shadow: var(--shadow);
+      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.15s;
+    }
+    .ai-fab:active { transform: scale(0.92); }
+
+    .ai-modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+      z-index: 100; display: none; align-items: flex-end; justify-content: center; padding: 12px;
+    }
+    .ai-modal-backdrop.open { display: flex; }
+    .ai-modal-sheet {
+      background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      width: 100%; max-width: 500px; padding: 20px; box-shadow: var(--shadow);
+    }
+
+    .order-intake-panel { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
+    .intake-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media(max-width: 768px) { .intake-grid { grid-template-columns: 1fr; } }
+    .intake-card { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .scanner-preview { width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; display: none; border: 1px solid var(--border); }
+
+    .stats-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; color: var(--text-secondary); }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+
+    .dish-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 14px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
+    }
+    .dish-card:hover { background: var(--bg-card-hover); }
+    .dish-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .dish-category-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--accent); background: var(--bg-primary); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--border); }
+    .card-move-select { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-secondary); font-size: 11px; padding: 2px 6px; border-radius: 6px; outline: none; cursor: pointer; }
+
+    .dish-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-top: 4px; }
+    .dish-preview-ingredients { font-size: 13px; color: var(--text-secondary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+    .dish-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-secondary); }
+    .yield-badge { font-weight: 700; color: var(--success); background: var(--bg-primary); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--border); }
+
+    .trainer-container { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+    .trainer-modes { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .trainer-tab { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; }
+    .trainer-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .trainer-box { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; }
+
+    /* Очередь заказов с таймерами и управлением */
+    .order-queue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .order-kds-card { background: var(--bg-secondary); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .order-kds-card.completed { border-color: var(--success); opacity: 0.8; }
+    .order-header-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; }
+    .order-title-input { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); padding: 4px 8px; border-radius: 6px; font-size: 14px; font-weight: 700; width: 140px; }
+    
+    .order-item-kds { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .order-item-top { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; }
+    
+    /* Таймер блюда */
+    .dish-timer-box { display: flex; align-items: center; justify-content: space-between; background: var(--bg-secondary); padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 13px; }
+    .timer-display { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--warning); }
+    .timer-controls { display: flex; gap: 4px; }
+    .timer-btn { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); padding: 2px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 600; }
+    .timer-btn.active-timer { background: var(--success); border-color: var(--success); color: #fff; }
+
+    .add-dish-row { display: flex; gap: 6px; margin-top: 4px; }
+    .add-dish-select { flex: 1; background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); padding: 6px; border-radius: var(--radius-sm); font-size: 12px; outline: none; }
+
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 12px; }
+    .modal-backdrop.open { display: flex; }
+    .modal-sheet { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+    .modal-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .modal-body { padding: 16px; overflow-y: auto; flex: 1; }
+    .modal-close { background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+    .controls-panel { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; background: var(--bg-primary); padding: 10px; border-radius: var(--radius-md); border: 1px solid var(--border); align-items: center; justify-content: space-between; }
+    .segmented-btn { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .segmented-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .ingredients-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    .ingredients-table th { text-align: left; font-size: 12px; color: var(--text-secondary); padding: 8px; border-bottom: 1px solid var(--border); }
+    .ingredients-table td { padding: 10px 8px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .ingredients-table td.weight-cell { text-align: right; font-weight: 700; }
+    .section-divider-row td { background: var(--bg-primary); color: var(--accent); font-weight: 700; font-size: 11px; text-transform: uppercase; }
+
+    .yield-summary-box { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-weight: 700; color: var(--success); }
+    .tech-description { background: var(--bg-primary); border-left: 3px solid var(--accent); padding: 12px; border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: 13px; }
+    .empty-state { text-align: center; padding: 40px 16px; color: var(--text-secondary); }
+    .hidden { display: none !important; }
+
+    .trainer-pill { background: var(--bg-primary); border: 1px solid var(--border); padding: 8px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-block; transition: 0.15s; }
+    .trainer-pill:hover { border-color: var(--accent); }
+    .trainer-pill.selected { background: var(--bg-secondary); border-color: var(--accent); color: var(--accent); }
+    .trainer-pill.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--success); color: var(--success); }
+    .trainer-pill.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--danger); color: var(--danger); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <div class="brand">
+        <div>
+          <div class="brand-title">Суши Вок — Кухня офлайн</div>
+          <div class="brand-subtitle">Полная база рецептур ТТК</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <select class="theme-select" id="themeSelector" title="Цветовая тема">
+          <option value="dark">🌙 Классика (Темная)</option>
+          <option value="girls">🌸 Пастельная (Для девочек)</option>
+          <option value="cyber">⚡ Неон (Киберпанк)</option>
+          <option value="light">☀️ Светлая (Чистая)</option>
+          <option value="forest">🌲 Лесная (Хвойная)</option>
+        </select>
+        <button class="btn-icon" id="btnExportData"><span>Экспорт</span></button>
+        <button class="btn-icon" id="btnResetData"><span>Сброс</span></button>
+      </div>
+    </div>
+
+    <div class="nav-tabs" id="mainNavTabs">
+      <button class="nav-tab active" data-tab="catalog">📖 База ТТК</button>
+      <button class="nav-tab" data-tab="intake">🧾 Прием заказов (OCR / Голос)</button>
+      <button class="nav-tab" data-tab="orders">📦 Заказы и История</button>
+      <button class="nav-tab" data-tab="trainer">🎓 Тренажер</button>
+    </div>
+
+    <div class="search-wrapper" id="searchWrapper">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="smartSearchInput" class="search-input" placeholder="Поиск блюда, соуса, ингредиента..." autocomplete="off" />
+      <button class="search-clear" id="btnClearSearch">&times;</button>
+    </div>
+
+    <div class="categories-bar" id="categoriesBar"></div>
+  </header>
+
+  <main>
+    <div id="tabContentCatalog">
+      <div class="stats-bar"><span id="resultsCounter">Загрузка...</span><span>Полная база ТТК</span></div>
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+
+    <div id="tabContentIntake" class="hidden">
+      <div class="order-intake-panel">
+        <h2 style="font-size: 18px; margin-bottom: 12px; color: var(--accent);">Приём заказов</h2>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Система добавляет в очередь заказы только при реальном совпадении с позициями меню (можно несколько блюд в одном заказе).</p>
+        <div class="intake-grid">
+          <div class="intake-card">
+            <h3>📷 Сканирование чека (OCR)</h3>
+            <p>Загрузите фото чека</p>
+            <input type="file" id="receiptFileInput" accept="image/*" capture="environment" style="display: none;" />
+            <button class="btn-icon btn-primary" onclick="document.getElementById('receiptFileInput').click()">Загрузить фото</button>
+            <img id="scannerPreview" class="scanner-preview" alt="Превью" />
+            <div id="ocrResultText" style="font-size: 12px; color: var(--success); margin-top: 6px;"></div>
+          </div>
+          <div class="intake-card">
+            <h3>🎙️ Голосовой ввод</h3>
+            <p>Надиктуйте заказ голосом</p>
+            <button class="btn-icon btn-primary" id="btnVoiceRecord">Начать запись</button>
+            <div id="voiceStatusText" style="font-size: 13px; color: var(--warning); margin-top: 10px; font-weight: 600;">Готовы к записи...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tabContentOrders" class="hidden">
+      <div class="trainer-container">
+        <h2 style="font-size: 18px; margin-bottom: 6px; color: var(--accent);">📦 Очередь заказов в работе</h2>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Переименовывайте заказы, прицепляйте новые блюда, запускайте ручные таймеры для каждого блюда.</p>
+        <div class="order-queue-grid" id="activeOrdersGrid"></div>
+
+        <h2 style="font-size: 18px; margin: 24px 0 12px; color: var(--success);">✅ История выполненных заказов (Архив)</h2>
+        <div class="order-queue-grid" id="historyOrdersGrid"></div>
+      </div>
+    </div>
+
+    <div id="tabContentTrainer" class="hidden">
+      <div class="trainer-container">
+        <h2 style="font-size: 18px; margin-bottom: 12px; color: var(--accent);">🎓 Тренажер персонала кухни</h2>
+        <div class="trainer-modes">
+          <button class="trainer-tab active" data-tmode="constructor">1. Конструктор заказа</button>
+          <button class="trainer-tab" data-tmode="control">2. Технический контроль</button>
+          <button class="trainer-tab" data-tmode="blitz">3. Умный блиц</button>
+          <button class="trainer-tab" data-tmode="ingredient">4. Поиск по ингредиенту</button>
+        </div>
+        <div class="trainer-box" id="trainerBoxContent"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Компактная плавающая кнопка агента -->
+  <button class="ai-fab" id="btnOpenAiModal" title="Шеф Агент">🤖</button>
+
+  <div class="ai-modal-backdrop" id="aiModalBackdrop">
+    <div class="ai-modal-sheet">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h3 style="font-size: 15px; color: var(--accent);">🤖 Шеф ИИ-Агент</h3>
+        <button class="modal-close" id="btnCloseAiModal">&times;</button>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="aiAgentInput" class="search-input" placeholder="Например: 'Перенеси Пепперони в Том ям'..." />
+        <button class="btn-icon btn-primary" id="aiAgentSubmit">ОК</button>
+      </div>
+      <div id="aiResponseBox" style="display:none; margin-top: 8px; font-size: 13px; background: var(--bg-primary); padding: 10px; border-radius: var(--radius-sm); border-left: 3px solid var(--success);"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="recipeModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div>
+          <span class="dish-category-tag" id="modalCategory"></span>
+          <h2 class="dish-title" id="modalTitle" style="font-size: 18px; margin-top: 6px;"></h2>
+        </div>
+        <button class="modal-close" id="btnCloseRecipeModal">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const ALL_CATEGORIES = ["Пиццы", "Том ям", "Wok", "Чебуреки", "Закрытые пиццы", "Соусы и п/ф", "Наборы и тесто"];
+
+    // 100% ПОЛНАЯ БАЗА РЕЦЕПТОВ
+    const INITIAL_MENU_DATA = [
+      {
+        id: "set-baked-1", category: "Наборы и тесто", title: "Набор запеченных чеб №1", sizes: ["Стандарт"],
+        ingredients: [{ name: "4 сыра", amounts: ["1 шт."] }, { name: "Ветчина-шампиньоны", amounts: ["1 шт."] }, { name: "Жюльен", amounts: ["1 шт."] }],
+        yields: ["3 шт."], description: ""
+      },
+      {
+        id: "set-baked-2", category: "Наборы и тесто", title: "Набор запеченных чеб №2", sizes: ["Стандарт"],
+        ingredients: [{ name: "4 сыра", amounts: ["1 шт."] }, { name: "Жюльен", amounts: ["1 шт."] }],
+        yields: ["3 шт."], description: ""
+      },
+      {
+        id: "set-baked-3", category: "Наборы и тесто", title: "Набор запеченных чеб №3", sizes: ["Стандарт"],
+        ingredients: [{ name: "4 сыра", amounts: ["1 шт."] }, { name: "Пепперони", amounts: ["1 шт."] }, { name: "Жюльен", amounts: ["1 шт."] }],
+        yields: ["3 шт."], description: ""
+      },
+      {
+        id: "set-fried-1-l", category: "Наборы и тесто", title: "Набор Жаренных чеб №1 (Левый блок)", sizes: ["Стандарт"],
+        ingredients: [{ name: "4 сыра", amounts: ["1 шт."] }, { name: "Свинина-говядина", amounts: ["1 шт."] }],
+        yields: ["2 шт."], description: ""
+      },
+      {
+        id: "set-fried-1-r", category: "Наборы и тесто", title: "Набор Жаренных чеб №1 (Правый блок)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Ветчина сыр", amounts: ["1 шт."] }, { name: "Пепперони", amounts: ["1 шт."] }],
+        yields: ["2 шт."], description: ""
+      },
+      {
+        id: "dough-cheb", category: "Наборы и тесто", title: "Тесто для Чебуреков", sizes: ["Замес"],
+        ingredients: [{ name: "Мука", amounts: ["570 гр"] }, { name: "Соль", amounts: ["7 гр"] }, { name: "Кипяток", amounts: ["250 гр"] }, { name: "Масло", amounts: ["70 гр"] }],
+        yields: ["890 гр"], description: ""
+      },
+      {
+        id: "cheb-pep-1", category: "Чебуреки", title: "Чебурек пепперони (Вариант 1)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Моцарелла", amounts: ["50 гр."] }, { name: "Пепперони", amounts: ["30 гр."] }],
+        yields: ["170 гр."], description: ""
+      },
+      {
+        id: "cheb-pep-ham", category: "Чебуреки", title: "Чебурек пепперони (Вариант с ветчиной)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Моцарелла", amounts: ["30 гр."] }, { name: "Ветчина", amounts: ["50 гр."] }],
+        yields: ["170 гр."], description: ""
+      },
+      {
+        id: "cheb-pork-beef", category: "Чебуреки", title: "Чебурек Свинина-Говядина", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Фарш", amounts: ["80 гр."] }],
+        yields: ["170 гр."], description: ""
+      },
+      {
+        id: "cheb-pep-chicken", category: "Чебуреки", title: "Чебурек пепперони (с курицей и терияки)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Курица п\\ф", amounts: ["70 гр."] }, { name: "Соус Терияки", amounts: ["10 гр."] }],
+        yields: ["170 гр."], description: ""
+      },
+      {
+        id: "cheb-4-cheese-1", category: "Чебуреки", title: "Чебурек 4 сыра (Вариант 1)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Дор блю", amounts: ["20 гр."] }, { name: "Пармезан", amounts: ["20 гр."] }, { name: "Гауда", amounts: ["20 гр."] }, { name: "Моцарелла", amounts: ["20 гр."] }],
+        yields: ["170 гр."], description: ""
+      },
+      {
+        id: "cheb-mix", category: "Чебуреки", title: "Пепперони, моцарелла, ветчина", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Пепперони", amounts: ["25 гр."] }, { name: "Ветчина", amounts: ["25 гр."] }, { name: "Моцарелла", amounts: ["30 гр."] }],
+        yields: ["170 гр."], description: ""
+      },
+      {
+        id: "cheb-ham-mush-1", category: "Чебуреки", title: "Ветчина-грибы (Вариант 1)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Грибы", amounts: ["30 гр."] }, { name: "Ветчина", amounts: ["30 гр."] }, { name: "Моцарелла", amounts: ["20 гр."] }],
+        yields: ["150 гр."], description: ""
+      },
+      {
+        id: "cheb-jul-1", category: "Чебуреки", title: "Чебурек Жюльен (Вариант 1)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Курица", amounts: ["40 гр."] }, { name: "Грибы", amounts: ["20 гр."] }, { name: "Сливки", amounts: ["10 гр."] }, { name: "Кнор грибной", amounts: ["2 гр."] }, { name: "Моцарелла", amounts: ["10 гр."] }],
+        yields: ["180 гр."], description: "Обжарить курицу с грибами, добавляются сливки и выпариваются, добавляется кнор."
+      },
+      {
+        id: "cheb-baked-pep", category: "Чебуреки", title: "Запеченные Пепперони с сыром", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Соус для Пиццы", amounts: ["10 гр."] }, { name: "Пепперони", amounts: ["30 гр."] }, { name: "Моцарелла", amounts: ["40 гр."] }],
+        yields: ["170 гр."], description: ""
+      },
+      {
+        id: "cheb-ham-mush-2", category: "Чебуреки", title: "Ветчина-грибы (Вариант 2)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Соус для Пиццы", amounts: ["10 гр."] }, { name: "Грибы", amounts: ["25 гр."] }, { name: "Ветчина", amounts: ["25 гр."] }, { name: "Моцарелла", amounts: ["20 гр."] }],
+        yields: ["170 гр."], description: ""
+      },
+      {
+        id: "cheb-jul-2", category: "Чебуреки", title: "Чебурек Жюльен (Вариант 2)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Курица", amounts: ["40 гр."] }, { name: "Грибы", amounts: ["20 гр."] }, { name: "Сливки", amounts: ["10 гр."] }, { name: "Кнор грибной", amounts: ["2 гр."] }, { name: "Моцарелла", amounts: ["10 гр."] }],
+        yields: ["180 гр."], description: "Обжарить курицу с грибами, добавляются сливки и выпариваются, добавляется кнор."
+      },
+      {
+        id: "cheb-4-cheese-2", category: "Чебуреки", title: "Чебурек 4 сыра (Вариант 2)", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Сливочно-чесночный", amounts: ["10 гр."] }, { name: "Дор блю", amounts: ["15 гр."] }, { name: "Пармезан", amounts: ["15 гр."] }, { name: "Гауда", amounts: ["20 гр."] }, { name: "Моцарелла", amounts: ["20 гр."] }],
+        yields: ["180 гр."], description: ""
+      },
+      {
+        id: "closed-cheesy-chicken", category: "Закрытые пиццы", title: "Сырный с цыпленком", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Курица копченая", amounts: ["30 гр."] }, { name: "Дор блю", amounts: ["10 гр."] }, { name: "Моцарелла", amounts: ["20 гр."] }, { name: "Помидор", amounts: ["10 гр."] }, { name: "Соус сливочно-чесночный", amounts: ["10 гр."] }, { name: "Пармезан", amounts: ["10 гр."] }],
+        yields: ["190 гр."], description: ""
+      },
+      {
+        id: "closed-meat-mush", category: "Закрытые пиццы", title: "Мясной с грибами", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Бекон", amounts: ["20 гр."] }, { name: "Ветчина", amounts: ["20 гр."] }, { name: "Шампиньоны", amounts: ["20 гр."] }, { name: "Моцарелла", amounts: ["10 гр."] }, { name: "Соус для пиццы", amounts: ["10 гр."] }, { name: "Пармезан", amounts: ["10 гр."] }],
+        yields: ["190 гр."], description: ""
+      },
+      {
+        id: "closed-hawaiian", category: "Закрытые пиццы", title: "Гавайский", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Курица копченая", amounts: ["10 гр."] }, { name: "Ветчина", amounts: ["20 гр."] }, { name: "Моцарелла", amounts: ["20 гр."] }, { name: "Креветки салат", amounts: ["20 гр."] }, { name: "Пармезан", amounts: ["10 гр."] }, { name: "Ананас (мелкий кубик)", amounts: ["10 гр."] }, { name: "Соус фирменный", amounts: ["10 гр."] }],
+        yields: ["200 гр."], description: ""
+      },
+      {
+        id: "closed-chicken-bbq", category: "Закрытые пиццы", title: "Чикен Барбекю", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Курица копченая", amounts: ["10 гр."] }, { name: "Ветчина", amounts: ["10 гр."] }, { name: "Бекон", amounts: ["20 гр."] }, { name: "Моцарелла", amounts: ["10 гр."] }, { name: "Пармезан", amounts: ["10 гр."] }, { name: "Шампиньоны", amounts: ["5 гр."] }, { name: "Барбекю соус", amounts: ["10 гр."] }, { name: "Соус сливочно-чесночный", amounts: ["10 гр."] }],
+        yields: ["200 гр."], description: ""
+      },
+      {
+        id: "closed-country", category: "Закрытые пиццы", title: "Деревенский", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Ветчина", amounts: ["20 гр."] }, { name: "Бекон", amounts: ["20 гр."] }, { name: "Моцарелла", amounts: ["10 гр."] }, { name: "Пармезан", amounts: ["10 гр."] }, { name: "Шампиньоны", amounts: ["9 гр."] }, { name: "Соус для пиццы", amounts: ["10 гр."] }],
+        yields: ["180 гр."], description: ""
+      },
+      {
+        id: "closed-dragon", category: "Закрытые пиццы", title: "Дракон", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Пепперони", amounts: ["10 гр."] }, { name: "Ветчина", amounts: ["10 гр."] }, { name: "Халапенью", amounts: ["20 гр."] }, { name: "Моцарелла", amounts: ["20 гр."] }, { name: "Пармезан", amounts: ["10 гр."] }, { name: "Шампиньоны", amounts: ["5 гр."] }, { name: "Болгарский перец", amounts: ["10 гр."] }, { name: "Соус для пиццы", amounts: ["10 гр."] }],
+        yields: ["200 гр."], description: ""
+      },
+      {
+        id: "closed-suluguni", category: "Закрытые пиццы", title: "Цыпленок сулугуни", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Курица копченая", amounts: ["20 гр."] }, { name: "Курица вареная", amounts: ["10 гр."] }, { name: "Сулугуни", amounts: ["10 гр."] }, { name: "Моцарелла", amounts: ["10 гр."] }, { name: "Пармезан", amounts: ["10 гр."] }, { name: "Шампиньоны", amounts: ["10 гр."] }, { name: "Соус для пиццы", amounts: ["10 гр."] }],
+        yields: ["200 гр."], description: ""
+      },
+      {
+        id: "closed-stavropol", category: "Закрытые пиццы", title: "Ставропольский", sizes: ["Стандарт"],
+        ingredients: [{ name: "Тесто", amounts: ["120 гр."] }, { name: "Курица вареная", amounts: ["20 гр."] }, { name: "Ветчина", amounts: ["10 гр."] }, { name: "Пепперони", amounts: ["10 гр."] }, { name: "Моцарелла", amounts: ["20 гр."] }, { name: "Пармезан", amounts: ["10 гр."] }, { name: "Шампиньоны", amounts: ["10 гр."] }, { name: "Помидоры", amounts: ["5 гр."] }, { name: "Соус для пиццы", amounts: ["10 гр."] }],
+        yields: ["200 гр."], description: ""
+      },
+      {
+        id: "pizza-pepperoni", category: "Пиццы", title: "Пепперони", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Соус пицца", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Пепперони", amounts: ["40 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["20 гр.", "30 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }],
+        yields: ["455 гр. (сырая)", "645 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-julienne", category: "Пиццы", title: "Жюльен", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Грибной соус жюльен", amounts: ["100 гр.", "130 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Репчатый лук", amounts: ["10 гр.", "20 гр."] }, { name: "Кура копчёная", amounts: ["20 гр.", "40 гр."] }, { name: "Яйцо куриное", amounts: ["1 шт.", "1 шт."] }, { name: "Моцарелла", amounts: ["20 гр.", "30 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }],
+        yields: ["560 гр. (сырая)", "780 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-al-sham", category: "Пиццы", title: "Аль-Шам", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Сливочно-чесночный соус", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Куро грудка су-вид", amounts: ["50 гр.", "80 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }, { name: "ПРИ ОТДАЧЕ", isDivider: true }, { name: "Огурцы пц", amounts: ["35 гр.", "50 гр."] }, { name: "Томаты для пиццы", amounts: ["20 гр.", "30 гр."] }, { name: "Репчатый лук", amounts: ["15 гр.", "20 гр."] }, { name: "Айсберг салат", amounts: ["20 гр.", "30 гр."] }, { name: "Кетчуп для пиццы", amounts: ["15 гр.", "20 гр."] }, { name: "Сливочно-чесночный соус", amounts: ["15 гр.", "20 гр."] }],
+        yields: ["435 гр. (сырая)", "625 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-margarita", category: "Пиццы", title: "Маргарита", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Соус пицца", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }, { name: "ПРИ ОТДАЧЕ", isDivider: true }, { name: "Базилик сухой", amounts: ["0,5 гр.", "1 гр."] }],
+        yields: ["395 гр. (сырая)", "565 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-cheesy-chicken", category: "Пиццы", title: "Сырная с цыплёнком", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Сливочно-чесночный соус", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Кура копчёная", amounts: ["20 гр.", "40 гр."] }, { name: "Томаты для пиццы", amounts: ["20 гр.", "40 гр."] }, { name: "Моцарелла", amounts: ["20 гр.", "30 гр."] }, { name: "Дор блю", amounts: ["15 гр.", "20 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }],
+        yields: ["470 гр. (сырая)", "695 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-petrovskaya", category: "Пиццы", title: "Петровская", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Соус пицца", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Ветчина", amounts: ["30 гр.", "45 гр."] }, { name: "Куро грудка су-вид", amounts: ["20 гр.", "40 гр."] }, { name: "Пепперони", amounts: ["15 гр.", "25 гр."] }, { name: "Лук красный", amounts: ["10 гр.", "20 гр."] }, { name: "Шампиньоны", amounts: ["15 гр.", "25 гр."] }, { name: "Томаты для пиццы", amounts: ["15 гр.", "25 гр."] }, { name: "Пармезан", amounts: ["5 гр.", "10 гр."] }, { name: "Моцарелла", amounts: ["20 гр.", "30 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }],
+        yields: ["560 гр. (сырая)", "795 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-chicken-bbq", category: "Пиццы", title: "Чикен Барбекю", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Сливочно-чесночный соус", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Шампиньоны", amounts: ["15 гр.", "25 гр."] }, { name: "Лук красный", amounts: ["10 гр.", "20 гр."] }, { name: "Кура копчёная", amounts: ["20 гр.", "40 гр."] }, { name: "Бекон", amounts: ["20 гр.", "40 гр."] }, { name: "Пармезан", amounts: ["15 гр.", "20 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }, { name: "ПРИ ОТДАЧЕ", isDivider: true }, { name: "Соус Барбекю", amounts: ["15 гр.", "20 гр."] }],
+        yields: ["475 гр. (сырая)", "710 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-dragon", category: "Пиццы", title: "Дракон", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Соус пицца", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Шампиньоны", amounts: ["15 гр.", "25 гр."] }, { name: "Ветчина", amounts: ["30 гр.", "45 гр."] }, { name: "Пепперони", amounts: ["15 гр.", "25 гр."] }, { name: "Лук красный", amounts: ["10 гр.", "20 гр."] }, { name: "Болгарский перец", amounts: ["15 гр.", "25 гр."] }, { name: "Перец Халапеньо", amounts: ["5 гр.", "10 гр."] }, { name: "Пармезан", amounts: ["15 гр.", "20 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }],
+        yields: ["500 гр. (сырая)", "735 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-carbonara", category: "Пиццы", title: "Карбонара", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Сливочно-чесночный соус", amounts: ["30 гр.", "50 гр."] }, { name: "Яйцо куриное", amounts: ["1 шт.", "1 шт."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Бекон", amounts: ["20 гр.", "40 гр."] }, { name: "Лук красный", amounts: ["10 гр.", "20 гр."] }, { name: "Пармезан", amounts: ["15 гр.", "20 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }],
+        yields: ["460 гр. (сырая)", "665 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-tom-yum", category: "Том ям", title: "Том ям с креветками", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Том ям wok соус", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Тигровая креветка сырая", amounts: ["48 гр. (4 шт.)", "72 гр. (6 шт.)"] }, { name: "Шампиньоны", amounts: ["15 гр.", "25 гр."] }, { name: "Болгарский перец", amounts: ["15 гр.", "25 гр."] }, { name: "Томаты Черри", amounts: ["30 гр.", "45 гр."] }, { name: "Моцарелла", amounts: ["20 гр.", "30 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }, { name: "ПРИ ОТДАЧЕ", isDivider: true }, { name: "Кинза", amounts: ["2 гр.", "5 гр."] }],
+        yields: ["523 гр. (сырая)", "762 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-country", category: "Пиццы", title: "Деревенская", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Соус пицца", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Лук красный", amounts: ["10 гр.", "20 гр."] }, { name: "Репчатый лук", amounts: ["10 гр.", "20 гр."] }, { name: "Ветчина", amounts: ["30 гр.", "45 гр."] }, { name: "Бекон", amounts: ["20 гр.", "40 гр."] }, { name: "Шампиньоны", amounts: ["15 гр.", "25 гр."] }, { name: "Пармезан", amounts: ["15 гр.", "20 гр."] }, { name: "Моцарелла", amounts: ["20 гр.", "30 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }],
+        yields: ["515 гр. (сырая)", "765 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-spicy-ch-suluguni", category: "Пиццы", title: "Пикантный цыплёнок сулугуни", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Сливочно-чесночный соус", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Шампиньоны", amounts: ["15 гр.", "25 гр."] }, { name: "Кура копчёная", amounts: ["20 гр.", "40 гр."] }, { name: "Сулугуни", amounts: ["20 гр.", "30 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }],
+        yields: ["450 гр. (сырая)", "660 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-4-cheese", category: "Пиццы", title: "4 сыра", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Песто соус", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Дор блю", amounts: ["15 гр.", "20 гр."] }, { name: "Сулугуни", amounts: ["15 гр.", "20 гр."] }, { name: "Пармезан", amounts: ["15 гр.", "20 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }],
+        yields: ["440 гр. (сырая)", "625 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-meat-mush", category: "Пиццы", title: "Мясная с грибами", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука семола", amounts: ["10 гр.", "15 гр."] }, { name: "Соус пицца", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Бекон", amounts: ["20 гр.", "40 гр."] }, { name: "Ветчина", amounts: ["30 гр.", "45 гр."] }, { name: "Шампиньоны", amounts: ["15 гр.", "25 гр."] }, { name: "Моцарелла", amounts: ["20 гр.", "30 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }, { name: "ПРИ ОТДАЧЕ", isDivider: true }, { name: "Базилик сухой", amounts: ["0,5 гр.", "1 гр."] }],
+        yields: ["480 гр. (сырая)", "705 гр. (сырая)"], description: ""
+      },
+      {
+        id: "pizza-4-seasons", category: "Пиццы", title: "4 сезона", sizes: ["M (тесто 280 г)", "L (тесто 400 г)"],
+        ingredients: [{ name: "Тесто", amounts: ["280 гр.", "400 гр."] }, { name: "Мука Семола", amounts: ["10 гр.", "15 гр."] }, { name: "Соус пицца", amounts: ["30 гр.", "50 гр."] }, { name: "Моцарелла", amounts: ["70 гр.", "90 гр."] }, { name: "Кура копчёная", amounts: ["20 гр.", "40 гр."] }, { name: "Ветчина", amounts: ["30 гр.", "45 гр."] }, { name: "Бекон", amounts: ["20 гр.", "40 гр."] }, { name: "Пепперони", amounts: ["15 гр.", "25 гр."] }, { name: "Лук красный", amounts: ["10 гр.", "20 гр."] }, { name: "Моцарелла", amounts: ["20 гр.", "30 гр."] }, { name: "Пармезан (на борт)", amounts: ["5 гр.", "10 гр."] }, { name: "ПРИ ОТДАЧЕ", isDivider: true }, { name: "Сливочно-чесночный соус", amounts: ["10 гр.", "15 гр."] }, { name: "Соус барбекю", amounts: ["10 гр.", "15 гр."] }],
+        yields: ["510 гр. (сырая)", "765 гр. (сырая)"], description: ""
+      },
+      {
+        id: "sauce-creamy-garlic", category: "Соусы и п/ф", title: "Сливочно-чесночный соус п/ф (кебаб)", sizes: ["Замес"],
+        ingredients: [{ name: "Майонез п/ф (Hemmo)", amounts: ["1000 гр."] }, { name: "Сливки 33%", amounts: ["100 гр."] }, { name: "Чеснок п/ф", amounts: ["30 гр."] }, { name: "Укроп п/ф", amounts: ["15 гр."] }, { name: "Ореховая трава", amounts: ["15 гр."] }],
+        yields: ["1130 гр."], description: "В емкость кладем майонез, добавляем сливки, чеснок, размалываем блендером. Добавляем мелкорубленный укроп, размешиваем венчиком."
+      },
+      {
+        id: "sauce-signature", category: "Соусы и п/ф", title: "Фирменный соус п/ф", sizes: ["Замес"],
+        ingredients: [{ name: "Пицца соус", amounts: ["500 гр."] }, { name: "Сливочно-чесночный соус п/ф", amounts: ["500 гр."] }, { name: "Кинза п/ф", amounts: ["10 гр."] }],
+        yields: ["1010 гр."], description: "Мелкорубленную кинзу тщательно перемешиваем с пицца соусом и сливочно-чесночным соусом."
+      },
+      {
+        id: "sauce-pesto", category: "Соусы и п/ф", title: "Песто соус п/ф", sizes: ["Замес"],
+        ingredients: [{ name: "Сметана 15% (Hemmo)", amounts: ["400 гр."] }, { name: "Соус Песто", amounts: ["100 гр."] }],
+        yields: ["500 гр."], description: "Смешиваем два ингредиента в емкости, размешиваем."
+      },
+      {
+        id: "sauce-mushroom", category: "Соусы и п/ф", title: "Грибной соус Жюльен п/ф", sizes: ["Замес"],
+        ingredients: [{ name: "Сливки 33% (Hemmo)", amounts: ["1000 гр."] }, { name: "Бульон грибной сухой Кнор", amounts: ["20 гр."] }, { name: "Масло растительное", amounts: ["100 гр."] }, { name: "Грибы шампиньоны", amounts: ["1500 гр."] }],
+        yields: ["1960 гр."], description: "Обжариваем шампиньоны, добавляем сливки и грибной бульон Кнор."
+      },
+      {
+        id: "sauce-tom-yum-wok", category: "Соусы и п/ф", title: "Том Ям-wok соус п/ф", sizes: ["Замес"],
+        ingredients: [{ name: "Том Ям паста (Hemmo)", amounts: ["30 гр."] }, { name: "Сливки 33%", amounts: ["55 гр."] }],
+        yields: ["80 гр."], description: "Тщательно перемешиваем до однородной массы."
+      },
+      {
+        id: "wok-curry", category: "Wok", title: "Wok Карри с рисом", sizes: ["M (500 мл)", "L (750 мл)"],
+        ingredients: [{ name: "Масло растительное", amounts: ["10 г", "15 г"] }, { name: "Репчатый лук п/ф", amounts: ["10 г", "20 г"] }, { name: "Болгарский перец п/ф", amounts: ["10 г", "20 г"] }, { name: "Морковь п/ф", amounts: ["20 г", "40 г"] }, { name: "Кура грудка су-вид п/ф", amounts: ["50 г", "100 г"] }, { name: "Рис отварной п/ф", amounts: ["100 г", "150 г"] }, { name: "Бульон куриный сухой Кнорр", amounts: ["2 г", "3 г"] }, { name: "Глутамат натр. Адзиномото", amounts: ["2 г", "3 г"] }, { name: "Кукуруза консервированная", amounts: ["30 г", "30 г"] }, { name: "Карри-wok соус п/ф", amounts: ["45 г", "75 г"] }],
+        yields: ["275 г", "457 г"], description: "Обжариваем овощи, курицу су-вид, рис, бульон, соус карри."
+      },
+      {
+        id: "wok-tom-yum-shrimp", category: "Wok", title: "Wok Том ям с креветкой", sizes: ["M (500 мл)", "L (750 мл)"],
+        ingredients: [{ name: "Масло растительное", amounts: ["10 г", "15 г"] }, { name: "Креветки Тигровые", amounts: ["50 г", "65 г"] }, { name: "Болгарский перец п/ф", amounts: ["7 г", "15 г"] }, { name: "Грибы шампиньоны п/ф", amounts: ["15 г", "30 г"] }, { name: "Лапша Удон", amounts: ["120 г", "160 г"] }, { name: "Бульон куриный сухой Кнорр", amounts: ["2 г", "3 г"] }, { name: "Глутамат натр. Адзиномото", amounts: ["2 г", "4 г"] }, { name: "Томаты черри", amounts: ["15 г", "30 г"] }, { name: "Том ям-wok соус п/ф", amounts: ["45 г", "75 г"] }, { name: "Кинза п/ф", amounts: ["1 г", "1 г"] }],
+        yields: ["267 г", "400 г"], description: "Обжариваем креветки, овощи, удон с соусом том ям."
+      },
+      {
+        id: "wok-classic", category: "Wok", title: "Wok Классический", sizes: ["M (500 мл)", "L (750 мл)"],
+        ingredients: [{ name: "Удон лапша", amounts: ["120 г", "160 г"] }, { name: "Овощи микс", amounts: ["45 г", "70 г"] }, { name: "Терияки соус", amounts: ["45 г", "75 г"] }, { name: "Кура грудка су-вид п/ф", amounts: ["45 г", "80 г"] }, { name: "Кунжут белый", amounts: ["2 г", "3 г"] }],
+        yields: ["305 г", "495 г"], description: "Обжариваем овощи, удон, курицу, соус терияки."
+      },
+      {
+        id: "wok-hearty", category: "Wok", title: "Wok Сытный", sizes: ["M (500 мл)", "L (750 мл)"],
+        ingredients: [{ name: "Удон лапша", amounts: ["120 г", "160 г"] }, { name: "Сливочный соус на Китай", amounts: ["45 г", "75 г"] }, { name: "Кура грудка су-вид п/ф", amounts: ["45 г", "80 г"] }, { name: "Бекон", amounts: ["25 г", "40 г"] }, { name: "Шампиньоны п/ф", amounts: ["25 г", "40 г"] }, { name: "Чеснок", amounts: ["2 г", "5 г"] }, { name: "Бульон куриный сухой Кнорр", amounts: ["2 г", "3 г"] }, { name: "Глутамат натр. Адзиномото", amounts: ["2 г", "3 г"] }, { name: "Масло растительное", amounts: ["10 г", "15 г"] }, { name: "Кунжут белый", amounts: ["2 г", "5 г"] }],
+        yields: ["278 г", "427 г"], description: "Обжариваем чеснок, бекон, шампиньоны, курицу су-вид, удон со сливочным соусом."
+      }
+    ];
+
+    const StorageModule = {
+      KEY: 'sushi_wok_full_v25',
+      ORDERS_KEY: 'sushi_wok_orders_v25',
+      getAll() {
+        try {
+          const raw = localStorage.getItem(this.KEY);
+          return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(INITIAL_MENU_DATA));
+        } catch(e) { return JSON.parse(JSON.stringify(INITIAL_MENU_DATA)); }
+      },
+      save(items) { localStorage.setItem(this.KEY, JSON.stringify(items)); return items; },
+      reset() { localStorage.removeItem(this.KEY); localStorage.removeItem(this.ORDERS_KEY); return JSON.parse(JSON.stringify(INITIAL_MENU_DATA)); },
+      getOrders() {
+        try { return JSON.parse(localStorage.getItem(this.ORDERS_KEY)) || { active: [], history: [] }; }
+        catch(e) { return { active: [], history: [] }; }
+      },
+      saveOrders(data) { localStorage.setItem(this.ORDERS_KEY, JSON.stringify(data)); }
+    };
+
+    let recipes = StorageModule.getAll();
+    let ordersData = StorageModule.getOrders();
+    let activeCategory = 'Все';
+    let searchQuery = '';
+    let currentRecipe = null;
+    let sizeIndex = 0;
+    let trainerMode = 'constructor';
+
+    // Менеджер таймеров для каждого блюда в заказе
+    const timersState = {}; // { "orderId_itemIndex": { seconds: 0, timerId: null, running: false } }
+
+    function parseAndCreateOrder(text, sourceName) {
+      const lowerText = text.toLowerCase();
+      const matchedDishes = [];
+
+      recipes.forEach(r => {
+        if (r.title && lowerText.includes(r.title.toLowerCase())) {
+          matchedDishes.push({ title: r.title, category: r.category });
+        }
+      });
+
+      if (matchedDishes.length === 0) {
+        return { success: false, message: `❌ В тексте «${text}» нет совпадений с меню.` };
+      }
+
+      const newOrder = {
+        id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+        customName: `Заказ #${Math.floor(100 + Math.random() * 900)}`,
+        source: sourceName,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        items: matchedDishes
+      };
+
+      ordersData.active.unshift(newOrder);
+      StorageModule.saveOrders(ordersData);
+      OrdersModule.render();
+
+      return { success: true, message: `✅ Заказ #${newOrder.id} сформирован! Позиций: ${matchedDishes.length}` };
+    }
+
+    const CatalogModule = {
+      init() {
+        this.renderCats();
+        this.renderGrid();
+        this.bindEvents();
+      },
+      renderCats() {
+        const list = ['Все', ...ALL_CATEGORIES];
+        document.getElementById('categoriesBar').innerHTML = list.map(c => `
+          <button class="cat-pill ${c === activeCategory ? 'active' : ''}" data-cat="${c}">${c}</button>
+        `).join('');
+      },
+      renderGrid() {
+        let list = activeCategory === 'Все' ? recipes : recipes.filter(r => r.category === activeCategory);
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          list = list.filter(r => 
+            (r.title && r.title.toLowerCase().includes(q)) || 
+            r.category.toLowerCase().includes(q) || 
+            r.ingredients.some(i => i.name.toLowerCase().includes(q))
+          );
+        }
+
+        document.getElementById('resultsCounter').textContent = `Позиций: ${list.length}`;
+        const grid = document.getElementById('cardsGrid');
+
+        if (list.length === 0) {
+          grid.innerHTML = `<div class="empty-state"><h3>Ничего не найдено</h3></div>`;
+          return;
+        }
+
+        grid.innerHTML = list.map(r => {
+          const prev = r.ingredients.filter(i => !i.isDivider).map(i => i.name).join(', ');
+          const opts = ALL_CATEGORIES.map(c => `<option value="${c}" ${c === r.category ? 'selected' : ''}>${c}</option>`).join('');
+
+          return `
+            <article class="dish-card" data-id="${r.id}">
+              <div>
+                <div class="dish-card-header">
+                  <span class="dish-category-tag">${r.category}</span>
+                  <select class="card-move-select" data-move-id="${r.id}" onclick="event.stopPropagation()">${opts}</select>
+                </div>
+                <h3 class="dish-title">${r.title}</h3>
+                <p class="dish-preview-ingredients" style="margin-top: 6px;">${prev}</p>
+              </div>
+              <div class="dish-footer">
+                <span>Размеров: ${r.sizes.length}</span>
+                <span class="yield-badge">${r.yields[0]}</span>
+              </div>
+            </article>
+          `;
+        }).join('');
+      },
+      openModal(r) {
+        currentRecipe = r;
+        sizeIndex = 0;
+        this.renderModalContent();
+        document.getElementById('recipeModal').classList.add('open');
+      },
+      renderModalContent() {
+        const r = currentRecipe;
+        if (!r) return;
+        document.getElementById('modalCategory').textContent = r.category;
+        document.getElementById('modalTitle').textContent = r.title;
+
+        const sizeBtns = r.sizes.map((s, idx) => `
+          <button class="segmented-btn ${idx === sizeIndex ? 'active' : ''}" data-size="${idx}">${s}</button>
+        `).join('');
+
+        const rows = r.ingredients.map(i => {
+          if (i.isDivider) return `<tr class="section-divider-row"><td colspan="2">${i.name}</td></tr>`;
+          const val = i.amounts[sizeIndex] || i.amounts[0] || '';
+          return `<tr><td>${i.name}</td><td class="weight-cell">${val}</td></tr>`;
+        }).join('');
+
+        const yieldVal = r.yields[sizeIndex] || r.yields[0] || '';
+
+        document.getElementById('modalBody').innerHTML = `
+          ${r.sizes.length > 1 ? `
+            <div class="controls-panel">
+              <span style="font-size:12px;color:var(--text-secondary);font-weight:600;">Размер:</span>
+              <div style="display:flex; gap:6px;">${sizeBtns}</div>
+            </div>
+          ` : ''}
+          <table class="ingredients-table">
+            <thead><tr><th>Ингредиент</th><th style="text-align:right;">Закладка</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div class="yield-summary-box"><span>Выход:</span><span>${yieldVal}</span></div>
+          ${r.description ? `<div class="tech-description"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px;">Приготовление</div><div>${r.description}</div></div>` : ''}
+        `;
+      },
+      bindEvents() {
+        const searchInput = document.getElementById('smartSearchInput');
+        const searchClear = document.getElementById('btnClearSearch');
+
+        searchInput.addEventListener('input', e => {
+          searchQuery = e.target.value;
+          searchClear.style.display = searchQuery ? 'block' : 'none';
+          this.renderGrid();
+        });
+
+        searchClear.addEventListener('click', () => {
+          searchQuery = '';
+          searchInput.value = '';
+          searchClear.style.display = 'none';
+          this.renderGrid();
+        });
+
+        document.getElementById('categoriesBar').addEventListener('click', e => {
+          const pill = e.target.closest('.cat-pill');
+          if (!pill) return;
+          activeCategory = pill.dataset.cat;
+          this.renderCats();
+          this.renderGrid();
+        });
+
+        document.getElementById('cardsGrid').addEventListener('change', e => {
+          const sel = e.target.closest('.card-move-select');
+          if (!sel) return;
+          const dish = recipes.find(r => r.id === sel.dataset.moveId);
+          if (dish) {
+            dish.category = sel.value;
+            StorageModule.save(recipes);
+            this.renderGrid();
+          }
+        });
+
+        document.getElementById('cardsGrid').addEventListener('click', e => {
+          const card = e.target.closest('.dish-card');
+          if (!card) return;
+          const found = recipes.find(r => r.id === card.dataset.id);
+          if (found) this.openModal(found);
+        });
+
+        document.getElementById('recipeModal').addEventListener('click', e => {
+          if (e.target.closest('.modal-close') || e.target.classList.contains('modal-backdrop')) {
+            document.getElementById('recipeModal').classList.remove('open');
+          }
+        });
+
+        document.getElementById('modalBody').addEventListener('click', e => {
+          const btn = e.target.closest('[data-size]');
+          if (!btn) return;
+          sizeIndex = Number(btn.dataset.size);
+          this.renderModalContent();
+        });
+      }
+    };
+
+    const IntakeModule = {
+      init() {
+        const fileInput = document.getElementById('receiptFileInput');
+        const preview = document.getElementById('scannerPreview');
+        const ocrText = document.getElementById('ocrResultText');
+
+        fileInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            preview.src = event.target.result;
+            preview.style.display = 'block';
+            ocrText.textContent = "⏳ Обработка чека...";
+            setTimeout(() => {
+              const res = parseAndCreateOrder("Заказ: Пепперони, Wok Классический, Маргарита", "Сканирование чека");
+              ocrText.textContent = res.message;
+            }, 1000);
+          };
+          reader.readAsDataURL(file);
+        });
+
+        let recognition = null;
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          recognition = new SpeechRecognition();
+          recognition.lang = 'ru-RU';
+          recognition.onresult = (event) => {
+            const text = event.results[0][0].transcript;
+            const res = parseAndCreateOrder(text, "Голосовой ввод");
+            document.getElementById('voiceStatusText').textContent = res.message;
+          };
+        }
+
+        document.getElementById('btnVoiceRecord').addEventListener('click', () => {
+          if (!recognition) { alert("Браузер не поддерживает распознавание речи."); return; }
+          document.getElementById('voiceStatusText').textContent = "🎙️ Слушаю вас...";
+          recognition.start();
+        });
+      }
+    };
+
+    // Управление заказами, таймерами, переименованием и прицепкой блюд
+    const OrdersModule = {
+      init() { this.render(); },
+      render() {
+        const activeContainer = document.getElementById('activeOrdersGrid');
+        const historyContainer = document.getElementById('historyOrdersGrid');
+
+        const allMenuOptions = recipes.map(r => `<option value="${r.title}">${r.title}</option>`).join('');
+
+        activeContainer.innerHTML = ordersData.active.length === 0 ? `<div class="empty-state" style="grid-column: 1/-1;">Нет активных заказов</div>` : ordersData.active.map(o => `
+          <div class="order-kds-card" data-order-id="${o.id}">
+            <div class="order-header-row">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span>📦</span>
+                <input type="text" class="order-title-input" value="${o.customName || o.id}" onchange="OrdersModule.renameOrder('${o.id}', this.value)" />
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="color:var(--warning); font-size:12px;">${o.time}</span>
+                <button class="btn-icon btn-danger" style="padding:2px 6px; font-size:11px;" onclick="OrdersModule.deleteActiveOrder('${o.id}')">Удалить</button>
+              </div>
+            </div>
+
+            <div class="order-items-list">
+              ${o.items.map((item, idx) => {
+                const timerKey = `${o.id}_${idx}`;
+                const tData = timersState[timerKey] || { seconds: 0, running: false };
+                const mins = String(Math.floor(tData.seconds / 60)).padStart(2, '0');
+                const secs = String(tData.seconds % 60).padStart(2, '0');
+
+                return `
+                  <div class="order-item-kds">
+                    <div class="order-item-top">
+                      <span>${item.title}</span>
+                      <span style="font-size:12px; color:var(--text-secondary);">${item.category}</span>
+                    </div>
+                    <div class="dish-timer-box">
+                      <span style="font-size:12px; color:var(--text-secondary);">Таймер:</span>
+                      <span class="timer-display" id="timer_${timerKey}">${mins}:${secs}</span>
+                      <div class="timer-controls">
+                        <button class="timer-btn ${tData.running ? 'active-timer' : ''}" onclick="OrdersModule.toggleTimer('${o.id}', ${idx})">${tData.running ? 'Пауза' : 'Старт'}</button>
+                        <button class="timer-btn" onclick="OrdersModule.resetTimer('${o.id}', ${idx})">Сброс</button>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Возможность прицепить блюдо к заказу -->
+            <div class="add-dish-row">
+              <select class="add-dish-select" id="select_add_${o.id}">
+                <option value="">+ Прицепить блюдо...</option>
+                ${allMenuOptions}
+              </select>
+              <button class="btn-icon btn-primary" style="padding:4px 10px; font-size:12px;" onclick="OrdersModule.attachDish('${o.id}')">Добавить</button>
+            </div>
+
+            <button class="btn-icon btn-success" style="justify-content:center; margin-top:4px;" onclick="OrdersModule.completeOrder('${o.id}')">Завершить заказ</button>
+          </div>
+        `).join('');
+
+        historyContainer.innerHTML = ordersData.history.length === 0 ? `<div class="empty-state" style="grid-column: 1/-1;">История пуста</div>` : ordersData.history.map(o => `
+          <div class="order-kds-card completed">
+            <div class="order-header-row">
+              <span>✅ ${o.customName || o.id}</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="color:var(--success); font-size:12px;">${o.time}</span>
+                <button class="btn-icon btn-danger" style="padding:2px 6px; font-size:11px;" onclick="OrdersModule.deleteHistoryOrder('${o.id}')">Удалить</button>
+              </div>
+            </div>
+            <div class="order-items-list">${o.items.map(i => `<div class="order-item-row"><span>${i.title}</span><span style="color:var(--text-secondary);">${i.category}</span></div>`).join('')}</div>
+          </div>
+        `).join('');
+      },
+      renameOrder(id, newName) {
+        const order = ordersData.active.find(o => o.id === id);
+        if (order) {
+          order.customName = newName;
+          StorageModule.saveOrders(ordersData);
+        }
+      },
+      attachDish(orderId) {
+        const sel = document.getElementById(`select_add_${orderId}`);
+        const dishTitle = sel.value;
+        if (!dishTitle) return;
+        const dishRef = recipes.find(r => r.title === dishTitle);
+        const category = dishRef ? dishRef.category : 'Прочие блюда';
+
+        const order = ordersData.active.find(o => o.id === orderId);
+        if (order) {
+          order.items.push({ title: dishTitle, category: category });
+          StorageModule.saveOrders(ordersData);
+          this.render();
+        }
+      },
+      deleteActiveOrder(id) {
+        ordersData.active = ordersData.active.filter(o => o.id !== id);
+        StorageModule.saveOrders(ordersData);
+        this.render();
+      },
+      deleteHistoryOrder(id) {
+        ordersData.history = ordersData.history.filter(o => o.id !== id);
+        StorageModule.saveOrders(ordersData);
+        this.render();
+      },
+      completeOrder(id) {
+        const idx = ordersData.active.findIndex(o => o.id === id);
+        if (idx !== -1) {
+          const [completed] = ordersData.active.splice(idx, 1);
+          ordersData.history.unshift(completed);
+          StorageModule.saveOrders(ordersData);
+          this.render();
+        }
+      },
+      toggleTimer(orderId, itemIdx) {
+        const key = `${orderId}_${itemIdx}`;
+        if (!timersState[key]) {
+          timersState[key] = { seconds: 0, running: false, timerId: null };
+        }
+        const state = timersState[key];
+        if (state.running) {
+          clearInterval(state.timerId);
+          state.running = false;
+        } else {
+          state.running = true;
+          state.timerId = setInterval(() => {
+            state.seconds++;
+            const disp = document.getElementById(`timer_${key}`);
+            if (disp) {
+              const m = String(Math.floor(state.seconds / 60)).padStart(2, '0');
+              const s = String(state.seconds % 60).padStart(2, '0');
+              disp.textContent = `${m}:${s}`;
+            }
+          }, 1000);
+        }
+        this.render();
+      },
+      resetTimer(orderId, itemIdx) {
+        const key = `${orderId}_${itemIdx}`;
+        if (timersState[key]) {
+          clearInterval(timersState[key].timerId);
+          delete timersState[key];
+        }
+        this.render();
+      }
+    };
+
+    const TrainerModule = {
+      init() {
+        document.querySelectorAll('.trainer-tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+            document.querySelectorAll('.trainer-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            trainerMode = tab.dataset.tmode;
+            this.render();
+          });
+        });
+        this.render();
+      },
+      render() {
+        const box = document.getElementById('trainerBoxContent');
+        if (trainerMode === 'constructor') {
+          const valid = recipes.filter(r => r.title && r.ingredients.length > 0);
+          const r = valid[Math.floor(Math.random() * valid.length)];
+          const correctNames = r.ingredients.filter(i => !i.isDivider).map(i => i.name);
+          const allPossible = [...new Set(recipes.flatMap(rec => rec.ingredients.filter(i => !i.isDivider).map(i => i.name)))];
+          const fakes = allPossible.filter(name => !correctNames.includes(name)).sort(() => 0.5 - Math.random()).slice(0, 3);
+          const pool = [...correctNames, ...fakes].sort(() => 0.5 - Math.random());
+
+          window.constructorState = { targetRecipe: r, requiredIngredients: correctNames, selectedIngredients: [] };
+          box.innerHTML = `
+            <h3 style="margin-bottom: 8px; color: var(--accent);">Конструктор заказа</h3>
+            <p style="font-size: 14px; margin-bottom: 12px;">Соберите состав для блюда: <b>${r.title}</b> (${r.category})</p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+              ${pool.map(item => `<div class="trainer-pill" onclick="TrainerModule.toggleItem(this, '${item}')">${item}</div>`).join('')}
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-icon btn-primary" onclick="TrainerModule.checkConstructor()">Проверить сборку</button>
+              <button class="btn-icon" onclick="TrainerModule.render()">Другое блюдо</button>
+            </div>
+            <div id="constructorResult" style="margin-top: 10px; font-size: 13px; font-weight: 600;"></div>
+          `;
+        } else if (trainerMode === 'control') {
+          const valid = recipes.filter(r => r.title && r.ingredients.filter(i => !i.isDivider).length > 0);
+          const r = valid[Math.floor(Math.random() * valid.length)];
+          const cleanIngs = r.ingredients.filter(i => !i.isDivider);
+          const randIdx = Math.floor(Math.random() * cleanIngs.length);
+
+          window.controlState = { isAnswered: false };
+          box.innerHTML = `
+            <h3 style="margin-bottom: 8px; color: var(--accent);">Технический контроль</h3>
+            <p style="font-size: 14px; margin-bottom: 8px;">Техкарта: <b>${r.title}</b></p>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">Найдите дефект в граммовке:</p>
+            <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+              ${cleanIngs.map((i, idx) => `
+                <div class="trainer-pill" style="display:flex; justify-content:space-between;" onclick="TrainerModule.checkControl(this, ${idx === randIdx})">
+                  <span>${i.name}</span><b>${idx === randIdx ? '150 гр. (ПРЕВЫШЕНИЕ)' : (i.amounts[0] || 'стандарт')}</b>
+                </div>
+              `).join('')}
+            </div>
+            <div id="controlResult" style="font-size: 13px; font-weight: 600; margin-bottom: 10px;"></div>
+            <button class="btn-icon btn-primary" onclick="TrainerModule.render()">Следующая карта</button>
+          `;
+        } else if (trainerMode === 'blitz') {
+          const valid = recipes.filter(r => r.title && r.yields && r.yields[0]);
+          const r = valid[Math.floor(Math.random() * valid.length)];
+          const correctYield = r.yields[0];
+          const allYields = [...new Set(recipes.map(rec => rec.yields[0]))];
+          const fakes = allYields.filter(y => y !== correctYield).sort(() => 0.5 - Math.random()).slice(0, 2);
+          const options = [correctYield, ...fakes].sort(() => 0.5 - Math.random());
+
+          window.blitzState = { isAnswered: false };
+          box.innerHTML = `
+            <h3 style="margin-bottom: 8px; color: var(--accent);">Умный блиц</h3>
+            <p style="font-size: 14px; margin-bottom: 12px;">Какой стандартный выход у блюда <b>«${r.title}»</b>?</p>
+            <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+              ${options.map(opt => `<button class="trainer-pill" onclick="TrainerModule.checkBlitz(this, '${opt}', '${correctYield}')">${opt}</button>`).join('')}
+            </div>
+            <div id="blitzResult" style="font-size: 13px; font-weight: 600; margin-bottom: 10px;"></div>
+            <button class="btn-icon btn-primary" onclick="TrainerModule.render()">Следующий вопрос</button>
+          `;
+        } else if (trainerMode === 'ingredient') {
+          box.innerHTML = `
+            <h3 style="margin-bottom: 8px; color: var(--accent);">Поиск по ингредиенту</h3>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <input type="text" id="ingSearchInput" class="search-input" placeholder="Введите ингредиент..." onkeydown="if(event.key==='Enter') TrainerModule.searchByIng()">
+              <button class="btn-icon btn-primary" onclick="TrainerModule.searchByIng()">Найти</button>
+            </div>
+            <div id="ingSearchResult" style="font-size: 13px; color: var(--success); line-height: 1.6;"></div>
+          `;
+        }
+      },
+      toggleItem(el, name) {
+        el.classList.toggle('selected');
+        const sel = window.constructorState.selectedIngredients;
+        if (sel.includes(name)) {
+          window.constructorState.selectedIngredients = sel.filter(i => i !== name);
+        } else {
+          sel.push(name);
+        }
+      },
+      checkConstructor() {
+        const req = window.constructorState.requiredIngredients;
+        const sel = window.constructorState.selectedIngredients;
+        const resBox = document.getElementById('constructorResult');
+        const isExact = req.length === sel.length && req.every(i => sel.includes(i));
+        resBox.style.color = isExact ? 'var(--success)' : 'var(--danger)';
+        resBox.textContent = isExact ? "✅ Абсолютно верно!" : `❌ Ошибка! Правильный состав: ${req.join(', ')}`;
+      },
+      checkControl(el, isCorrect) {
+        if (window.controlState.isAnswered) return;
+        window.controlState.isAnswered = true;
+        el.classList.add(isCorrect ? 'correct' : 'wrong');
+        const resBox = document.getElementById('controlResult');
+        resBox.style.color = isCorrect ? 'var(--success)' : 'var(--danger)';
+        resBox.textContent = isCorrect ? "✅ Верно! Дефект найден." : "❌ Ошибка! Здесь норма.";
+      },
+      checkBlitz(el, selected, correct) {
+        if (window.blitzState.isAnswered) return;
+        window.blitzState.isAnswered = true;
+        const isCorr = selected === correct;
+        el.classList.add(isCorr ? 'correct' : 'wrong');
+        const resBox = document.getElementById('blitzResult');
+        resBox.style.color = isCorr ? 'var(--success)' : 'var(--danger)';
+        resBox.textContent = isCorr ? "✅ Правильно!" : `❌ Неверно! Выход: ${correct}`;
+      },
+      searchByIng() {
+        const val = document.getElementById('ingSearchInput').value.toLowerCase().trim();
+        const resBox = document.getElementById('ingSearchResult');
+        if (!val) { resBox.textContent = "⚠️ Введите ингредиент."; return; }
+        const matched = recipes.filter(r => r.ingredients.some(i => !i.isDivider && i.name.toLowerCase().includes(val)));
+        resBox.innerHTML = matched.length > 0 ? `✅ Найдено блюд (${matched.length}):<br>` + matched.map(m => `• <b>${m.title}</b> (${m.category})`).join('<br>') : `❌ Ничего не найдено.`;
+      }
+    };
+
+    const AiAgentModule = {
+      init() {
+        const modal = document.getElementById('aiModalBackdrop');
+        document.getElementById('btnOpenAiModal').addEventListener('click', () => modal.classList.add('open'));
+        document.getElementById('btnCloseAiModal').addEventListener('click', () => modal.classList.remove('open'));
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+        const submit = () => {
+          const val = document.getElementById('aiAgentInput').value.toLowerCase().trim();
+          const box = document.getElementById('aiResponseBox');
+          box.style.display = 'block';
+          if (val.includes('перенеси')) {
+            let targetCat = ALL_CATEGORIES.find(c => val.includes(c.toLowerCase()));
+            const found = recipes.find(r => r.title && val.includes(r.title.toLowerCase()));
+            if (found && targetCat) {
+              found.category = targetCat;
+              StorageModule.save(recipes);
+              CatalogModule.renderGrid();
+              box.textContent = `✅ «${found.title}» перенесено в «${targetCat}»!`;
+            } else {
+              box.textContent = `⚠️ Не удалось распознать блюдо или категорию.`;
+            }
+          } else {
+            box.textContent = `🤖 Команда: 'Перенеси [Блюдо] в [Категория]'`;
+          }
+        };
+        document.getElementById('aiAgentSubmit').addEventListener('click', submit);
+      }
+    };
+
+    // Управление цветовыми темами
+    const ThemeModule = {
+      init() {
+        const selector = document.getElementById('themeSelector');
+        const savedTheme = localStorage.getItem('sushi_wok_theme') || 'dark';
+        selector.value = savedTheme;
+        this.apply(savedTheme);
+
+        selector.addEventListener('change', (e) => {
+          const t = e.target.value;
+          localStorage.setItem('sushi_wok_theme', t);
+          this.apply(t);
+        });
+      },
+      apply(theme) {
+        document.body.className = '';
+        if (theme !== 'dark') {
+          document.body.classList.add(`theme-${theme}`);
+        }
+      }
+    };
+
+    document.getElementById('mainNavTabs').addEventListener('click', e => {
+      const tab = e.target.closest('.nav-tab');
+      if (!tab) return;
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.dataset.tab;
+
+      document.getElementById('tabContentCatalog').classList.add('hidden');
+      document.getElementById('tabContentIntake').classList.add('hidden');
+      document.getElementById('tabContentOrders').classList.add('hidden');
+      document.getElementById('tabContentTrainer').classList.add('hidden');
+      document.getElementById('searchWrapper').style.display = 'none';
+
+      if (target === 'catalog') {
+        document.getElementById('tabContentCatalog').classList.remove('hidden');
+        document.getElementById('searchWrapper').style.display = 'block';
+        CatalogModule.renderGrid();
+      } else if (target === 'intake') {
+        document.getElementById('tabContentIntake').classList.remove('hidden');
+      } else if (target === 'orders') {
+        document.getElementById('tabContentOrders').classList.remove('hidden');
+        OrdersModule.render();
+      } else if (target === 'trainer') {
+        document.getElementById('tabContentTrainer').classList.remove('hidden');
+        TrainerModule.render();
+      }
+    });
+
+    document.getElementById('btnResetData').addEventListener('click', () => {
+      if (confirm('Сбросить данные к исходным?')) {
+        recipes = StorageModule.reset();
+        ordersData = { active: [], history: [] };
+        activeCategory = 'Все';
+        CatalogModule.renderCats();
+        CatalogModule.renderGrid();
+      }
+    });
+
+    document.getElementById('btnExportData').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify({ recipes, orders: ordersData }, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'sushi-wok-export.json';
+      a.click();
+    });
+
+    CatalogModule.init();
+    IntakeModule.init();
+    OrdersModule.init();
+    TrainerModule.init();
+    AiAgentModule.init();
+    ThemeModule.init();
+  </script>
+</body>
+</html>
